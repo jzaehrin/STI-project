@@ -62,3 +62,5 @@ typings/
 
 # database file
 /backend/db/database.db
+# server key
+/backend/server.key
