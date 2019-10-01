@@ -14,6 +14,7 @@ CREATE TABLE `messages` (
 	`timestamp` INTEGER NOT NULL,
 	`subject` VARCHAR NOT NULL,
 	`message` VARCHAR NOT NULL,
-  	FOREIGN KEY(from) REFERENCES users(id),
-	FOREIGN KEY(to) REFERENCES users(id)
+	`read` INTEGER NOT NULL,
+  	FOREIGN KEY(`from`) REFERENCES users(id),
+	FOREIGN KEY(`to`) REFERENCES users(id)
 );
