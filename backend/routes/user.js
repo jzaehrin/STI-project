@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var outbox = require('./outbox');
+var inbox = require('./inbox');
 
 /* Create new user. */
 router.post('/', function(req, res, next) {
@@ -16,23 +18,14 @@ router.put('/:userId', function(req, res, next) {
   res.send('update the profile of user with id : ' + req.params.userId);
 });
 
-/* get all received massages of user */
-router.get('/:userId/inbox', function(req, res, next) {
-  res.send('get all received messages of user with id : ' + req.params.userId);
-});
+router.use('/:userId/outbox', function(req, res, next) {
+  req.userId = req.params.userId;
+  next()
+}, outbox);
 
-/* get received message of user */
-router.get('/:userId/inbox/:messageId', function(req, res, next) {
-  res.send('get sent message with id : ' +  req.params.messageId +' of user with id : ' + req.params.userId);
-});
-
-/* get all sent massages of user */
-router.get('/:userId/outbox', function(req, res, next) {
-  res.send('get all received messages of user with id : ' + req.params.userId);
-});
-/* get sent message of user */
-router.get('/:userId/outbox/:messageId', function(req, res, next) {
-  res.send('get sent message with id : ' +  req.params.messageId +' of user with id : ' + req.params.userId);
-});
+router.use('/:userId/inbox', function(req, res, next) {
+  req.userId = req.params.userId;
+  next()
+}, inbox);
 
 module.exports = router;
