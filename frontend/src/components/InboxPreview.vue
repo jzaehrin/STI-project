@@ -5,10 +5,21 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: 'Inbox Preview',
+  name: 'InboxPreview',
   props: {
-    user_id: Number,
+    userId: Number,
+  },
+  created() {
+    axios.get(`/user/${this.userId}/inbox`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>

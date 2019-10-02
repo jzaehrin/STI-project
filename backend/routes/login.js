@@ -14,13 +14,17 @@ router.post('/', function(req, res, next) {
     if(!row || row.digest_password != req.body.password){
         res.sendStatus(401);
     } else{
-        cookie = {};
-        cookie.user = row.id;
-        cookie.role = row.level;
+        let session = {};
+        session.user = row.id;
+        session.role = row.level;
         // 24 hour validity
-        cookie.validity = Math.round(new Date().getTime() / 1000) + 24 * 60 * 60;
-        encCookie = Buffer.from(JSON.stringify(Crypto.encrypt(JSON.stringify(cookie)))).toString('base64');
-        res.cookie("token", encCookie, {"httpOnly" : "true"}).sendStatus(200);
+        session.validity = Math.round(new Date().getTime() / 1000) + 24 * 60 * 60;
+
+        let cookie = Crypto.encrypt(JSON.stringify(session));
+        cookie.user_id = row.id;
+
+        encCookie = Buffer.from(JSON.stringify(cookie)).toString('base64');
+        res.cookie("Authorization", encCookie).sendStatus(200);
     }
   } else {
     res.sendStatus(401);

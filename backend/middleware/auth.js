@@ -3,10 +3,11 @@ const Crypto = require('./crypto');
 module.exports = function (req, res, next){
    // check auth)
     
-    var auth = false;
-    if(typeof req.cookies.token !== 'undefined'){
+  var auth = false;
+  console.log(req.cookies);
+  if(typeof req.cookies.Authorization !== 'undefined'){
         try{
-            token = JSON.parse(Crypto.decrypt(JSON.parse(Buffer.from(req.cookies.token, 'base64').toString('ascii'))));
+            token = JSON.parse(Crypto.decrypt(JSON.parse(Buffer.from(req.cookies.Authorization, 'base64').toString('ascii'))));
             // cookie is still valid
             auth = token.validity > Math.round(new Date().getTime() / 1000);
             if(auth){

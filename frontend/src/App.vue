@@ -38,7 +38,7 @@
     </v-navigation-drawer>
 
     <v-content>
-      <router-link />
+      <router-view></router-view>
     </v-content>
   </v-app>
 
