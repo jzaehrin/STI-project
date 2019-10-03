@@ -64,3 +64,5 @@ typings/
 /backend/db/database.db
 # server key
 /backend/server.key
+# package-lock
+/backend/package-lock.json
