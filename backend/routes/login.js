@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Database = require('better-sqlite3');
-var db = new Database('/db/database.db');
+var db = new Database('./db/database.db');
 
 process.on('exit', () => db.close());
 process.on('SIGHUP', () => process.exit(128 + 1));

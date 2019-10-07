@@ -7,7 +7,7 @@ const inbox = require('./inbox');
 const Crypto = require('../middleware/crypto');
 
 const Database = require('better-sqlite3');
-const db = new Database('/db/database.db');
+const db = new Database('./db/database.db');
 
 process.on('exit', () => db.close());
 process.on('SIGHUP', () => process.exit(128 + 1));

@@ -3,7 +3,6 @@ FROM node:12
 RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y sqlite3 libsqlite3-dev
-RUN mkdir /db
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -36,6 +35,9 @@ COPY backend ../
 RUN mv dist/* ../public/
 
 WORKDIR /usr/src/app
+
+# create database directory
+RUN mkdir db
 
 EXPOSE 8080
 CMD [ "npm", "start" ]
