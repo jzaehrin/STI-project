@@ -5,63 +5,113 @@ const outbox = require('./outbox');
 const inbox = require('./inbox');
 
 const Crypto = require('../middleware/crypto');
-
-const Database = require('better-sqlite3');
-const db = new Database('./db/database.db');
-
-process.on('exit', () => db.close());
-process.on('SIGHUP', () => process.exit(128 + 1));
-process.on('SIGINT', () => process.exit(128 + 2));
-process.on('SIGTERM', () => process.exit(128 + 15));
+const db = require('../middleware/db');
 
 /* Create new user. */
-router.post('/', function(req, res, next) {
-  res.send('creating new user');
+router.post('/', function (req, res, next) {
+    if (req.role === 0) {
+        res.sendStatus(401);
+        return;
+    }
+    // if any of the user properties are missing, BAD_REQUEST
+    if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('first_name') ||
+        !req.body.hasOwnProperty('last_name') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('level')) {
+        res.sendStatus(400);
+        return;
+    }
+    // if any of the user properties' types are incorrect, BAD_REQUEST
+    if (typeof req.body.username != "string" || typeof req.body.first_name != "string" || typeof req.body.last_name != "string" ||
+        typeof req.body.password != "string" || !Number.isInteger(req.body.level)) {
+        res.sendStatus(400);
+        return;
+    }
+
+    const stmt = db.prepare('INSERT INTO users (username, firstname, lastname, digest_password, level, active) VALUES (?, ?, ?, ?, ?, 1)');
+
+    try {
+        stmt.run(req.body.username, req.body.first_name, req.body.last_name, Crypto.sha256(req.body.password), req.body.level);
+        res.sendStatus(200);
+    } catch (error) {
+        // if the transaction failed, we can assume the username was not unique, CONFILICT
+        res.sendStatus(409);
+    }
+
 });
 
-/* Get user Profile. */
-router.get('/:userId', function(req, res, next) {
-  res.send('get the profile of user with id : ' + req.params.userId);
-});
+/* Update user Profile. */
+router.put('/:userId', function (req, res, next) {
+    // if user is not admin, and tried to change role or validity, or tried to change other user's data, then UNAUTHORISED
+    if (req.role === 0 && (req.params.userId !== req.user || req.body.hasOwnProperty('validity') || req.body.hasOwnProperty('level'))) {
+        res.sendStatus(401);
+        return;
+    }
+    let somethingUpdated = false;
 
-/* put user Profile. */
-router.put('/:userId', function(req, res, next) {
-  // if user is not admin, and tried to change role or validity, or tried to change other user's data, refuse
-  console.log(req.body);
-  if(req.role === 0 && (req.params.userId != req.user || req.body.hasOwnProperty('validity') || req.body.hasOwnProperty('level'))){
-    res.sendStatus(401);
-  }
-  else{
-    var somethingUpdated = false;
-    if(req.body.hasOwnProperty('password') && req.body.password.hasOwnProperty('prev') && req.body.password.hasOwnProperty('new')){
-        const stmt = db.prepare('SELECT digest_password FROM users WHERE id=?');
+    // if the password is being updated, the new (and old if not by an admin) password must be provided
+    if (req.body.hasOwnProperty('password') && req.body.password.hasOwnProperty('new') && (req.role === 1 || req.body.password.hasOwnProperty('prev'))) {
+        let stmt = db.prepare('SELECT digest_password FROM users WHERE id=?');
         const row = stmt.get(req.params.userId);
-
-        if(!row || row.digest_password != Crypto.sha256(req.body.password.prev)){
+        // if the user doesn't exist or the existing password doesn't match, if not admin, then UNAUTHORISED
+        if (!row || (req.role === 0 && row.digest_password !== Crypto.sha256(req.body.password.prev))) {
             res.sendStatus(401);
             return;
-        } else{
-            const stmt = db.prepare('UPDATE users SET digest_password = ? WHERE id = ?'); 
-            stmt.run(Crypto.sha256(req.body.password.new), req.params.userId);
-            somethingUpdated = true;
         }
+        stmt = db.prepare('UPDATE users SET digest_password = ? WHERE id = ?');
+        stmt.run(Crypto.sha256(req.body.password.new), req.params.userId);
+        somethingUpdated = true;
     }
-    if(somethingUpdated){
+
+    if (req.body.hasOwnProperty('validity')) {
+        // if the validity is wrong type, or poorly bounded, BAD_REQUEST
+        if (!Number.isInteger(req.body.validity) || req.body.validity < 0 || req.body.validity > 1) {
+            res.sendStatus(400);
+            return;
+        }
+        let stmt = db.prepare('UPDATE users SET active = ? WHERE id = ?');
+        stmt.run(req.body.validity, req.params.userId);
+        somethingUpdated = true;
+    }
+
+    if (req.body.hasOwnProperty('level')) {
+        // if the level is wrong type, or poorly bounded, BAD_REQUEST
+        if (!Number.isInteger(req.body.level) || req.body.level < 0 || req.body.level > 1) {
+            res.sendStatus(400);
+            return;
+        }
+        let stmt = db.prepare('UPDATE users SET level = ? WHERE id = ?');
+        stmt.run(req.body.level, req.params.userId);
+        somethingUpdated = true;
+    }
+
+    if (somethingUpdated) {
         res.sendStatus(200);
-    } else{
+    } else {
+        // if nothing was updated, BAD_REQUEST
         res.sendStatus(400);
     }
-  }
+
 });
 
-router.use('/:userId/outbox', function(req, res, next) {
-  req.userId = req.params.userId;
-  next()
+/* Get user outbox */
+router.use('/:userId/outbox', function (req, res, next) {
+    // if the user is not admin, and is trying to access someone else's outbox, UNAUTHORISED
+    if(req.role === 0 && req.user != req.params.userId){
+        res.sendStatus(401);
+        return;
+    }
+    req.userId = req.params.userId;
+    next();
 }, outbox);
 
-router.use('/:userId/inbox', function(req, res, next) {
-  req.userId = req.params.userId;
-  next()
+/* Get user inbox */
+router.use('/:userId/inbox', function (req, res, next) {
+    // if the user is not admin, and is trying to access someone else's inbox, UNAUTHORISED
+    if(req.role === 0 && req.user != req.params.userId){
+        res.sendStatus(401);
+        return;
+    }
+    req.userId = req.params.userId;
+    next();
 }, inbox);
 
 module.exports = router;

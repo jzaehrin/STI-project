@@ -1,17 +1,18 @@
-var express = require('express');
-var history = require('connect-history-api-fallback');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const history = require('connect-history-api-fallback');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var userRouter = require('./routes/user');
-var usersRouter = require('./routes/users');
-var messageRouter = require('./routes/message');
-var loginRouter = require('./routes/login');
+const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user');
+const usersRouter = require('./routes/users');
+const messageRouter = require('./routes/message');
+const loginRouter = require('./routes/login');
 
-var authMiddleware = require ('./middleware/auth');
+const authMiddleware = require('./middleware/auth');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -20,19 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// Middleware for serving '/public' directory
-const staticFileMiddleware = express.static('public');
-// 1st call for unredirected requests 
-app.use(staticFileMiddleware);
-
-// Support history api 
-app.use(history({
-  index: '/public/index.html'
-}));
-
-// 2nd call for redirected requests
-app.use(staticFileMiddleware);
-
+app.use('/', indexRouter);
 // API start
 app.use('/login', loginRouter);
 

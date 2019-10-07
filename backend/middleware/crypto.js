@@ -5,9 +5,9 @@
 const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var key;
+let key;
 
 fs.readFile('./server.key', 'utf8', function (err, data) {
     if (err) throw err;
