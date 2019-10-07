@@ -1,10 +1,9 @@
 var express = require('express');
+var history = require('connect-history-api-fallback');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-
-var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var usersRouter = require('./routes/users');
 var messageRouter = require('./routes/message');
@@ -20,7 +19,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+
+// Middleware for serving '/public' directory
+const staticFileMiddleware = express.static('public');
+// 1st call for unredirected requests 
+app.use(staticFileMiddleware);
+
+// Support history api 
+app.use(history({
+  index: '/public/index.html'
+}));
+
+// 2nd call for redirected requests
+app.use(staticFileMiddleware);
+
+// API start
 app.use('/login', loginRouter);
 
 // auth middleware

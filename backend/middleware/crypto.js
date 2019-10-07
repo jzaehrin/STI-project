@@ -33,6 +33,11 @@ function decrypt(text) {
  return decrypted.toString();
 }
 
+function sha256(text){
+ return crypto.createHash('sha256').update(text, 'utf8').digest('hex')
+}
+
 exports.encrypt = encrypt;
 exports.decrypt = decrypt;
+exports.sha256 = sha256;
 

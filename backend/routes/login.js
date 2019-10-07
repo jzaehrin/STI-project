@@ -1,7 +1,13 @@
 var express = require('express');
 var router = express.Router();
+
 var Database = require('better-sqlite3');
-var db = new Database('./db/database.db');
+var db = new Database('/db/database.db');
+
+process.on('exit', () => db.close());
+process.on('SIGHUP', () => process.exit(128 + 1));
+process.on('SIGINT', () => process.exit(128 + 2));
+process.on('SIGTERM', () => process.exit(128 + 15));
 
 var Crypto = require('../middleware/crypto');
 
@@ -11,7 +17,7 @@ router.post('/', function(req, res, next) {
     var stmt = db.prepare('SELECT * FROM users WHERE username=?');
     var row = stmt.get(req.body.user);
 
-    if(!row || row.digest_password != req.body.password){
+    if(!row || row.digest_password != Crypto.sha256(req.body.password)){
         res.sendStatus(401);
     } else{
         let session = {};

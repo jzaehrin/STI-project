@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:12
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
@@ -8,25 +8,29 @@ RUN mkdir /db
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+# Copy backend dependencies and place-holder frontend
 COPY backend/package*.json ./
+COPY backend/public public/
 
+# build backend dependencies (takes a long time)
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
 
-# Bundle app source
-COPY backend .
-
-# Copy the frontend folder
+# Copy the frontend dependencies
 WORKDIR /usr/src/app/frontend
+
+COPY frontend/package*.json ./
+
+# install the frontend dependencies 
+RUN npm install
+
+# copy the frontend
 COPY frontend .
 
 # Build frontend
-RUN npm install
 RUN npm run build
+
+# Copy backend source
+COPY backend ../
 
 # move built frontend
 RUN mv dist/* ../public/

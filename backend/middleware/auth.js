@@ -4,7 +4,6 @@ module.exports = function (req, res, next){
    // check auth)
     
   var auth = false;
-  console.log(req.cookies);
   if(typeof req.cookies.Authorization !== 'undefined'){
         try{
             token = JSON.parse(Crypto.decrypt(JSON.parse(Buffer.from(req.cookies.Authorization, 'base64').toString('ascii'))));
@@ -14,7 +13,6 @@ module.exports = function (req, res, next){
                 req.user = token.user;
                 req.role = token.role;
             }
-            console.log(token);
         } catch(error){/*ignored*/}
     }
     if (auth){
