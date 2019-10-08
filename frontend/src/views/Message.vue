@@ -2,11 +2,11 @@
   <div class="message">
     <MessageViewer
       v-if="isFetch"
-      :from-name="fromName"
-      :to-name="toName"
-      :timestamp="timestamp"
-      :subject="subject"
-      :message="message"
+      :from-name="message.fromName"
+      :to-name="message.toName"
+      :timestamp="message.timestamp"
+      :subject="message.subject"
+      :message="message.message"
     ></MessageViewer>
   </div>
 </template>
@@ -18,14 +18,16 @@ import MessageViewer from '../components/MessageViewer.vue';
 export default {
   data() {
     return {
-      id: this.$route.params.id,
-      fromName: 'empty',
-      fromId: -1,
-      toName: 'empty',
-      toId: -1,
-      timestamp: -1,
-      subject: 'empty',
-      message: 'empty',
+      message: {
+        id: this.$route.params.id,
+        fromName: 'empty',
+        fromId: -1,
+        toName: 'empty',
+        toId: -1,
+        timestamp: -1,
+        subject: 'empty',
+        message: 'empty',
+      },
       isFetch: false,
     };
   },
@@ -33,6 +35,7 @@ export default {
     axios.get(`/message/${this.id}`)
       .then((response) => {
         console.log(response);
+        this.message = response.data;
         this.isFetch = true;
       })
       .catch((error) => {

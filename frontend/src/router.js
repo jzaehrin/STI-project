@@ -21,6 +21,32 @@ export default new Router({
       component: () => import('./views/Login.vue'),
     },
     {
+      path: '/changePassword',
+      name: 'changePassword',
+      component: () => import('./views/ChangePassword.vue'),
+      meta: {
+        authRequested: true,
+      },
+    },
+    {
+      path: '/users',
+      name: 'manageUsers',
+      component: () => import('./views/ManageUsers.vue'),
+      meta: {
+        authRequested: true,
+        beAdmin: true,
+      },
+    },
+    {
+      path: '/user/:id/edit',
+      name: 'manageUser',
+      component: () => import('./views/ManageUser.vue'),
+      meta: {
+        authRequested: true,
+        beAdmin: true,
+      },
+    },
+    {
       path: '/message/:id',
       name: 'message',
       component: () => import('./views/Message.vue'),

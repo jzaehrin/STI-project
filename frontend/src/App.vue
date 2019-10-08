@@ -1,17 +1,36 @@
 <template>
   <v-app>
     <v-app-bar app clipped-left>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>WebMail</span>
+      <v-toolbar-title
+        class="headline text-uppercase"
+      >
+        <a href="/" style="text-decoration: none; color: black;">WebMail</a>
         <span class="font-weight-light">Powered by vuejs</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="/profile"
+      <v-menu
+        open-on-hover
+        close-on-content-click
+        offset-y
       >
-        <span class="mr-2">Profile</span>
-      </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            icon
+            v-on="on"
+          >
+            <v-icon>mdi-account</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            href="/changePassword"
+            @click=""
+          >
+            <v-list-item-title>change password</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-navigation-drawer app absolute clipped>
       <v-list dense nav>
@@ -45,10 +64,12 @@
 </template>
 
 <script>
+import getUserId from './utils/session';
+
 export default {
   name: 'App',
   data: () => ({
-    //
+    userId: getUserId(),
   }),
 };
 </script>
