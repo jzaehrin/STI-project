@@ -35,7 +35,6 @@ router.post('/', function (req, res, next) {
         // if the transaction failed, we can assume the username was not unique, CONFILICT
         res.sendStatus(409);
     }
-
 });
 
 /* Update user Profile. */
