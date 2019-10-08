@@ -28,7 +28,7 @@ export default {
       },
     };
   },
-  created() {
+  mounted() {
     axios.get(`/message/${this.messageId}`)
       .then((response) => {
         this.message = response.data;

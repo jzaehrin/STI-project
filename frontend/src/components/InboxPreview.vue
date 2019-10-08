@@ -78,7 +78,11 @@ export default {
   },
   methods: {
     onClick(message) {
-      if (message.read !== 0) axios.put(`/message/${message.id}/read`);
+      if (message.read !== 0) {
+        axios.put(`/message/${message.id}/read`);
+        // eslint-disable-next-line no-param-reassign
+        message.read = false;
+      }
 
       if (this.onOpen !== undefined) this.onOpen(message);
     },
