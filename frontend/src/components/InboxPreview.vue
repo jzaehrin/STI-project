@@ -1,29 +1,29 @@
 <template>
   <div class="inbox">
-    <v-card>
+    <v-card
+      height="100vh"
+    >
       <v-card-title>Inbox</v-card-title>
       <v-card-text class="inbox-box">
         <v-list two-line>
           <v-list-item-group
-            v-model="selected"
             multiple
             active-class="grey--text"
           >
             <template v-for="(item, index) in items">
               <v-list-item
                 :key="item.id"
-                :href="`/message/${item.id}`"
+                @click="onClick(item)"
               >
                 <template v-slot:default="{ active, toggle }">
                   <v-list-item-content>
                     <v-list-item-title v-text="item.from"></v-list-item-title>
                     <v-list-item-subtitle class="text--primary" v-text="item.subject"></v-list-item-subtitle>
-                    <v-list-item-subtitle v-text="item.message.substring(0, 100)"></v-list-item-subtitle>
                   </v-list-item-content>
 
                   <v-list-item-action>
                     <v-icon
-                      v-if="!read"
+                      v-if="!item.read"
                       color="green"
                     >
                       mdi-email
@@ -58,19 +58,11 @@ export default {
   name: 'InboxPreview',
   props: {
     userId: Number,
+    onOpen: Function,
   },
   data() {
     return {
       items : [
-        {
-          id: 1,
-          timestamp: Math.floor(Date.now() / 1000),
-          fromName: 'toto',
-          toName: 'tata',
-          subject: 'test 1',
-          message: '',
-          read: false,
-        },
       ],
     };
   },
@@ -78,13 +70,24 @@ export default {
     axios.get(`/user/${this.userId}/inbox`)
       .then((response) => {
         console.log(response);
+        this.items = response.data;
       })
       .catch((error) => {
         console.log(error);
       });
   },
+  methods: {
+    onClick(message) {
+      if (message.read !== 0) axios.put(`/message/${message.id}/read`);
+
+      if (this.onOpen !== undefined) this.onOpen(message);
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
+#inbox {
+  height: 100%;
+}
 </style>

@@ -29,6 +29,14 @@ export default new Router({
       },
     },
     {
+      path: '/message/new',
+      name: 'createMessage',
+      component: () => import('./views/CreateMessage.vue'),
+      meta: {
+        authRequested: true,
+      },
+    },
+    {
       path: '/users',
       name: 'manageUsers',
       component: () => import('./views/ManageUsers.vue'),
