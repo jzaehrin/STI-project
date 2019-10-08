@@ -18,7 +18,7 @@ router.post('/', function (req, res, next) {
         return;
     }
 
-    const stmt = db.prepare('INSERT INTO messages (from, to, timestamp, subject, message, read) VALUES (?, ?, ?, ?, ?, 0)');
+    const stmt = db.prepare('INSERT INTO messages (`from`, to, timestamp, subject, message, read) VALUES (?, ?, ?, ?, ?, 0)');
 
     try {
         stmt.run(req.user, req.body.to, new Date.now() / 1000, req.body.subject, req.body.read);
