@@ -36,7 +36,14 @@ router.get('/:messageId', function (req, res, next) {
         res.sendStatus(400);
         return;
     }
-    const stmt = db.prepare('SELECT * FROM messages WHERE id=?');
+    let stmt = db.prepare(
+      'SELECT m.id, `from` AS fromId, u1.username AS fromName, `to` AS toId, u2.username AS toName, timestamp, subject, read ' +
+      'FROM messages AS m ' +
+      'INNER JOIN users AS u1 ' +
+      'ON u1.id = m.`from` ' +
+      'INNER JOIN users u2 ' +
+      'ON u2.id = m.`to` ' +
+      'WHERE m.id=?');
     const message = stmt.get(req.params.messageId);
 
     // if the message doesn't exist, BAD_REQUEST
@@ -46,7 +53,7 @@ router.get('/:messageId', function (req, res, next) {
     }
 
     // if the user is not admin, and is neither from or to, UNAUTHORISED
-    if (req.role == 0 && req.user !== message.from && req.user != message.to) {
+    if (req.role == 0 && req.user !== message.fromId && req.user != message.toId) {
         res.sendStatus(401);
         return;
     }
