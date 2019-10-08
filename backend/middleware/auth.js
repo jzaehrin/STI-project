@@ -12,7 +12,7 @@ module.exports = function (req, res, next) {
     try {
         const token = JSON.parse(Crypto.decrypt(JSON.parse(Buffer.from(req.cookies.Authorization, 'base64').toString('ascii'))));
         // cookie is still valid?
-        let auth = token.validity > Math.round(new Date().getTime() / 1000);
+        auth = token.validity > Math.round(new Date().getTime() / 1000);
 
         // user is still active?
         const user = db.prepare('SELECT * FROM users WHERE id = ?').get(token.user);
