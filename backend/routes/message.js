@@ -18,12 +18,13 @@ router.post('/', function (req, res, next) {
         return;
     }
 
-    const stmt = db.prepare('INSERT INTO messages (`from`, to, timestamp, subject, message, read) VALUES (?, ?, ?, ?, ?, 0)');
+    const stmt = db.prepare('INSERT INTO messages (`from`, `to`, timestamp, subject, message, read) VALUES (?, ?, ?, ?, ?, 0)');
 
     try {
-        stmt.run(req.user, req.body.to, new Date.now() / 1000, req.body.subject, req.body.read);
+        stmt.run(req.user, req.body.to, Math.round(new Date().getTime() / 1000), req.body.subject, req.body.message);
         res.sendStatus(200);
     } catch (error) {
+        console.log(error)
         // if the transaction failed, we can assume the username was not unique, CONFILICT
         res.sendStatus(409);
     }
