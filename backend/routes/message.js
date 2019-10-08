@@ -37,7 +37,7 @@ router.get('/:messageId', function (req, res, next) {
         return;
     }
     let stmt = db.prepare(
-      'SELECT m.id, `from` AS fromId, u1.username AS fromName, `to` AS toId, u2.username AS toName, timestamp, subject, read ' +
+      'SELECT m.id, `from` AS fromId, u1.username AS fromName, `to` AS toId, u2.username AS toName, timestamp, subject, read, message ' +
       'FROM messages AS m ' +
       'INNER JOIN users AS u1 ' +
       'ON u1.id = m.`from` ' +
