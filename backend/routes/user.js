@@ -40,7 +40,7 @@ router.post('/', function (req, res, next) {
 /* Update user Profile. */
 router.put('/:userId', function (req, res, next) {
     // if user is not admin, and tried to change role or validity, or tried to change other user's data, then UNAUTHORISED
-    if (req.role === 0 && (req.params.userId !== req.user || req.body.hasOwnProperty('validity') || req.body.hasOwnProperty('level'))) {
+    if (req.role === 0 && (req.params.userId !== req.user || req.body.hasOwnProperty('active') || req.body.hasOwnProperty('level'))) {
         res.sendStatus(401);
         return;
     }
@@ -60,14 +60,14 @@ router.put('/:userId', function (req, res, next) {
         somethingUpdated = true;
     }
 
-    if (req.body.hasOwnProperty('validity')) {
-        // if the validity is wrong type, or poorly bounded, BAD_REQUEST
-        if (!Number.isInteger(req.body.validity) || req.body.validity < 0 || req.body.validity > 1) {
+    if (req.body.hasOwnProperty('active')) {
+        // if the active is wrong type, or poorly bounded, BAD_REQUEST
+        if (!Number.isInteger(req.body.active) || req.body.active < 0 || req.body.active > 1) {
             res.sendStatus(400);
             return;
         }
         let stmt = db.prepare('UPDATE users SET active = ? WHERE id = ?');
-        stmt.run(req.body.validity, req.params.userId);
+        stmt.run(req.body.active, req.params.userId);
         somethingUpdated = true;
     }
 
