@@ -16,7 +16,7 @@
 <script>
 import InboxPreview from '../components/InboxPreview.vue';
 import MessageViewer from '../components/MessageViewer.vue';
-import getUserId from '../utils/session';
+import { getUserId } from '../utils/session';
 
 export default {
   data() {

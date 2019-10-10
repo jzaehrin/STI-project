@@ -62,7 +62,7 @@ export default {
   },
   data() {
     return {
-      items : [
+      items: [
       ],
     };
   },
@@ -78,10 +78,10 @@ export default {
   },
   methods: {
     onClick(message) {
-      if (message.read !== 0) {
+      if (message.read === 0) {
         axios.put(`/message/${message.id}/read`);
         // eslint-disable-next-line no-param-reassign
-        message.read = false;
+        message.read = true;
       }
 
       if (this.onOpen !== undefined) this.onOpen(message);

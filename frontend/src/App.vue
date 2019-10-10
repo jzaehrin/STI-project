@@ -4,7 +4,7 @@
       <v-toolbar-title
         class="headline text-uppercase"
       >
-        <a href="/" style="text-decoration: none; color: black;">WebMail</a>
+        <router-link style="text-decoration: none; color: black;" to="/">WebMail</router-link>
         <span class="font-weight-light">Powered by vuejs</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -35,7 +35,17 @@
     <v-navigation-drawer app absolute clipped>
       <v-list dense nav>
         <v-subheader>Navigation</v-subheader>
-        <v-list-item href="/inbox" link>
+        <v-list-item to="/message/new" link>
+          <v-list-item-icon>
+            <v-icon>mdi-email-plus</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>New</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item to="/" link>
           <v-list-item-icon>
             <v-icon>mdi-inbox-arrow-down</v-icon>
           </v-list-item-icon>
@@ -44,13 +54,23 @@
             <v-list-item-title>Inbox</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item href="/outbox" link>
+        <v-list-item to="/outbox" link>
           <v-list-item-icon>
             <v-icon>mdi-inbox-arrow-up</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
             <v-list-item-title>Outbox</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-subheader v-if="userLevel > 0" >Administration</v-subheader>
+        <v-list-item v-if="userLevel > 0" to="/users" link>
+          <v-list-item-icon>
+            <v-icon>mdi-account-multiple</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Users</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -64,13 +84,16 @@
 </template>
 
 <script>
-import getUserId from './utils/session';
+import { getUserId, getUserLevel } from './utils/session';
 
 export default {
   name: 'App',
-  data: () => ({
-    userId: getUserId(),
-  }),
+  data() {
+    return {
+      userId: getUserId(),
+      userLevel: getUserLevel(),
+    };
+  },
 };
 </script>
 

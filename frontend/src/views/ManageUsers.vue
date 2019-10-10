@@ -31,7 +31,7 @@
                   <v-list-item-action>
                     <v-btn
                       icon
-                      @click="toggleActive(item.id, item.active)"
+                      @click="toggleActive(item)"
                     >
                       <v-icon
                         v-if="item.active"
@@ -70,16 +70,7 @@ export default {
   name: 'ManageUsers',
   data() {
     return {
-      users: [
-        {
-          id: 1,
-          username: 'admin',
-          firstname: 'admin',
-          lastname: 'admin',
-          active: true,
-          level: 1,
-        },
-      ],
+      users: [],
     };
   },
   created() {
@@ -93,13 +84,14 @@ export default {
       });
   },
   methods: {
-    toggleActive(id, status) {
-      console.log( { active: !status } );
-      axios.put(`/user/${id}`,
+    toggleActive(user) {
+      axios.put(`/user/${user.id}`,
         {
-          active: !status,
+          active: (user.status === 1) ? 0 : 1,
         })
         .then((response) => {
+          // eslint-disable-next-line no-param-reassign
+          user.active = (user.status === 1) ? 0 : 1;
           console.log(response);
         })
         .catch((error) => {

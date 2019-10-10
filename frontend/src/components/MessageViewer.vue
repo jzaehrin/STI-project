@@ -28,14 +28,24 @@ export default {
       },
     };
   },
-  mounted() {
-    axios.get(`/message/${this.messageId}`)
-      .then((response) => {
-        this.message = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  created() {
+    this.getMessage();
+  },
+  watch: {
+    messageId() {
+      this.getMessage();
+    },
+  },
+  methods: {
+    getMessage() {
+      axios.get(`/message/${this.messageId}`)
+        .then((response) => {
+          this.message = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
