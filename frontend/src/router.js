@@ -55,6 +55,15 @@ export default new Router({
       },
     },
     {
+      path: '/user/new',
+      name: 'createUser',
+      component: () => import('./views/CreateUser.vue'),
+      meta: {
+        authRequested: true,
+        beAdmin: true,
+      },
+    },
+    {
       path: '/message/:id',
       name: 'message',
       component: () => import('./views/Message.vue'),

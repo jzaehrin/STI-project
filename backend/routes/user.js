@@ -15,21 +15,22 @@ router.post('/', function (req, res, next) {
     }
     // if any of the user properties are missing, BAD_REQUEST
     if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('first_name') ||
-        !req.body.hasOwnProperty('last_name') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('level')) {
+        !req.body.hasOwnProperty('last_name') || !req.body.hasOwnProperty('password') ||
+        !req.body.hasOwnProperty('level') || !req.body.hasOwnProperty('active')){
         res.sendStatus(400);
         return;
     }
     // if any of the user properties' types are incorrect, BAD_REQUEST
     if (typeof req.body.username != "string" || typeof req.body.first_name != "string" || typeof req.body.last_name != "string" ||
-        typeof req.body.password != "string" || !Number.isInteger(req.body.level)) {
+        typeof req.body.password != "string" || !Number.isInteger(req.body.level) || !Number.isInteger(req.body.active)) {
         res.sendStatus(400);
         return;
     }
 
-    const stmt = db.prepare('INSERT INTO users (username, firstname, lastname, digest_password, level, active) VALUES (?, ?, ?, ?, ?, 1)');
+    const stmt = db.prepare('INSERT INTO users (username, firstname, lastname, digest_password, level, active) VALUES (?, ?, ?, ?, ?, ?)');
 
     try {
-        stmt.run(req.body.username, req.body.first_name, req.body.last_name, Crypto.sha256(req.body.password), req.body.level);
+        stmt.run(req.body.username, req.body.first_name, req.body.last_name, Crypto.sha256(req.body.password), req.body.level, req.body.active);
         res.sendStatus(200);
     } catch (error) {
         // if the transaction failed, we can assume the username was not unique, CONFILICT

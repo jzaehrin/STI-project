@@ -1,6 +1,7 @@
 <template>
   <div class="users">
     <v-card>
+      <v-btn to="/user/new">Add User</v-btn>
       <v-card-title>Users</v-card-title>
       <v-card-text class="users-box">
         <v-list two-line>
@@ -87,11 +88,11 @@ export default {
     toggleActive(user) {
       axios.put(`/user/${user.id}`,
         {
-          active: (user.status === 1) ? 0 : 1,
+          active: (user.active === 1) ? 0 : 1,
         })
         .then((response) => {
           // eslint-disable-next-line no-param-reassign
-          user.active = (user.status === 1) ? 0 : 1;
+          user.active = (user.active === 1) ? 0 : 1;
           console.log(response);
         })
         .catch((error) => {
@@ -103,4 +104,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+#users {
+  
+}
 </style>
