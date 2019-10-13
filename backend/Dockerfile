@@ -1,5 +1,7 @@
 FROM node:12.10.0
 
+ARG FRONTEND-PORT=3000
+
 RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y sqlite3 libsqlite3-dev
@@ -18,6 +20,9 @@ RUN npm install
 WORKDIR /usr/src/app/frontend
 
 COPY frontend/package*.json ./
+
+# overwrite the backend's port number for the frontend
+RUN echo "backendPort=${FRONTEND-PORT}" > .env
 
 # install the frontend dependencies 
 RUN npm install
