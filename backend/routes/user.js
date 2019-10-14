@@ -116,6 +116,24 @@ router.delete('/:userId', function (req, res, next) {
     res.sendStatus(200);
 });
 
+/* Get user Profile. */
+router.get('/:userId', function (req, res, next) {
+    const stmt = db.prepare('Select * FROM users WHERE id = ?');
+    const user = stmt.get(req.params.userId);
+
+    // if the user doesn't exist, is deleted, or requester isn't an admin, and the account is disabled,BAD_REQUEST
+    if(!user || user.deleted == 1 || (req.role == 0 && user.active == 0)){
+        res.sendStatus(400);
+        return;
+    }
+
+    // delete secret fields
+    delete user.deleted;
+    delete user.digest_password;
+
+    res.send(user);
+});
+
 /* Get user outbox */
 router.use('/:userId/outbox', function (req, res, next) {
     // if the user is not admin, and is trying to access someone else's outbox, UNAUTHORISED
