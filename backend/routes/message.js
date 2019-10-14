@@ -24,8 +24,8 @@ router.post('/', function (req, res, next) {
         stmt.run(req.user, req.body.to, Math.round(new Date().getTime() / 1000), req.body.subject, req.body.message);
         res.sendStatus(200);
     } catch (error) {
-        // if the transaction failed, we can assume the username was not unique, CONFILICT
-        res.sendStatus(409);
+        // if the transaction failed, we can assume the destination doesn't exist
+        res.sendStatus(400);
     }
 });
 
@@ -36,7 +36,7 @@ router.get('/:messageId', function (req, res, next) {
         return;
     }
     let stmt = db.prepare(
-        'SELECT m.id, `from` AS fromId, u1.username AS fromName, `to` AS toId, u2.username AS toName, timestamp, subject, read, message ' +
+        'SELECT m.id, `from` AS fromId, u1.username AS fromName, u1.deleted AS fromDel, `to` AS toId, u2.username AS toName, u2.deleted AS toDel, timestamp, subject, read ' +
         'FROM messages AS m ' +
         'INNER JOIN users AS u1 ' +
         'ON u1.id = m.`from` ' +
@@ -50,6 +50,12 @@ router.get('/:messageId', function (req, res, next) {
         res.sendStatus(400);
         return;
     }
+
+    // rename deleted users if found
+    message.fromName = message.fromDel == 0 ? message.fromName : "Delted User";
+    message.toName = message.toDel == 0 ? message.toName : "Delted User";
+    delete message.fromDel;
+    delete message.toDel;
 
     // if the user is not admin, and is neither from or to, UNAUTHORISED
     if (req.role == 0 && req.user !== message.fromId && req.user != message.toId) {
