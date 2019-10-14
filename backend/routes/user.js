@@ -16,7 +16,7 @@ router.post('/', function (req, res, next) {
     // if any of the user properties are missing, BAD_REQUEST
     if (!req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('first_name') ||
         !req.body.hasOwnProperty('last_name') || !req.body.hasOwnProperty('password') ||
-        !req.body.hasOwnProperty('level') || !req.body.hasOwnProperty('active')){
+        !req.body.hasOwnProperty('level') || !req.body.hasOwnProperty('active')) {
         res.sendStatus(400);
         return;
     }
@@ -27,7 +27,7 @@ router.post('/', function (req, res, next) {
         return;
     }
 
-    const stmt = db.prepare('INSERT INTO users (username, firstname, lastname, digest_password, level, active) VALUES (?, ?, ?, ?, ?, ?)');
+    const stmt = db.prepare('INSERT INTO users (username, firstname, lastname, digest_password, level, active, deleted) VALUES (?, ?, ?, ?, ?, ?, 0)');
 
     try {
         stmt.run(req.body.username, req.body.first_name, req.body.last_name, Crypto.sha256(req.body.password), req.body.level, req.body.active);
@@ -92,10 +92,34 @@ router.put('/:userId', function (req, res, next) {
 
 });
 
+/* Soft-delete user Profile. */
+router.delete('/:userId', function (req, res, next) {
+    // if the user is not admin, UNAUTHORISED
+    if (req.role === 0) {
+        res.sendStatus(401);
+        return;
+    }
+    const stmt = db.prepare('UPDATE users SET username = ?, deleted = 1 WHERE id = ?');
+    // this sets the soft delete field to 1, and renames the username to free up the original username
+    try {
+        stmt.run("deleted_user_" + req.params.userId, req.params.userId);
+    } catch (e) { // if there was an error, we can assume that the name "deleted_user_<id>" exists already, so we try again, but with a random username, until it works
+        let deleted = false;
+        while (!deleted) {
+            const rand_id = Crypto.randomString();
+            try {
+                stmt.run('deleted_user_' + rand_id, req.params.userId);
+                deleted = true;
+            } catch (e) {/* ignored */}
+        }
+    }
+    res.sendStatus(200);
+});
+
 /* Get user outbox */
 router.use('/:userId/outbox', function (req, res, next) {
     // if the user is not admin, and is trying to access someone else's outbox, UNAUTHORISED
-    if(req.role === 0 && req.user != req.params.userId){
+    if (req.role === 0 && req.user != req.params.userId) {
         res.sendStatus(401);
         return;
     }
@@ -106,7 +130,7 @@ router.use('/:userId/outbox', function (req, res, next) {
 /* Get user inbox */
 router.use('/:userId/inbox', function (req, res, next) {
     // if the user is not admin, and is trying to access someone else's inbox, UNAUTHORISED
-    if(req.role === 0 && req.user != req.params.userId){
+    if (req.role === 0 && req.user != req.params.userId) {
         res.sendStatus(401);
         return;
     }

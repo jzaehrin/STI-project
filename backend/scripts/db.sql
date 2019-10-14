@@ -5,7 +5,8 @@ CREATE TABLE `users` (
 	`lastname` VARCHAR,
 	`digest_password` VARCHAR NOT NULL,
 	`level` INT NOT NULL,
-    `active` INT NOT NULL
+    `active` INT NOT NULL,
+    `deleted` INT NOT NULL
 );
 
 CREATE TABLE `messages` (

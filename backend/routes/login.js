@@ -15,8 +15,8 @@ router.post('/', function (req, res, next) {
     const stmt = db.prepare('SELECT * FROM users WHERE username=?');
     const user = stmt.get(req.body.user);
 
-    // if the user is not found, the user is disabled or the passwords doesn't match, UNAUTHORISED
-    if (!user || user.active == 0 ||user.digest_password !== Crypto.sha256(req.body.password)) {
+    // if the user is not found, the user is disabled or deleted or the passwords doesn't match, UNAUTHORISED
+    if (!user || user.active == 0 || user.deleted == 1 || user.digest_password !== Crypto.sha256(req.body.password)) {
         res.sendStatus(401);
         return;
     }
@@ -31,7 +31,7 @@ router.post('/', function (req, res, next) {
     cookie.level = user.level;
 
     const encCookie = Buffer.from(JSON.stringify(cookie)).toString('base64');
-    res.cookie("Authorization", encCookie, {expires: new Date(Date.now()+ 24 * 60 * 60 * 1000)}).sendStatus(200);
+    res.cookie("Authorization", encCookie, {expires: new Date(Date.now() + 24 * 60 * 60 * 1000)}).sendStatus(200);
 
 });
 

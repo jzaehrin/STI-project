@@ -8,15 +8,16 @@ module.exports = function (req, res, next) {
         return;
     }
 
-    let auth;
+    let auth = false;
     try {
         const token = JSON.parse(Crypto.decrypt(JSON.parse(Buffer.from(req.cookies.Authorization, 'base64').toString('ascii'))));
         // cookie is still valid?
         auth = token.validity > Math.round(new Date().getTime() / 1000);
 
-        // user is still active?
+        // user is still active and not deleted?
         const user = db.prepare('SELECT * FROM users WHERE id = ?').get(token.user);
         auth = user.active == 1 ? auth : false;
+        auth = user.deleted == 0 ? auth : false;
 
         // if user is authenticated, set trusted values in the request before passing it to the next router
         if (auth) {
