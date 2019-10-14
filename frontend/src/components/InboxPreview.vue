@@ -3,11 +3,11 @@
     <v-card
       height="100vh"
     >
-      <v-card-title>Inbox</v-card-title>
+      <v-card-title>{{ (outbox) ? 'Outbox' : 'Inbox' }}</v-card-title>
       <v-card-text class="inbox-box">
         <v-list two-line>
           <v-list-item-group
-            multiple
+            v-model="item"
             active-class="grey--text"
           >
             <template v-for="(item, index) in items">
@@ -21,20 +21,38 @@
                     <v-list-item-subtitle class="text--primary" v-text="item.subject"></v-list-item-subtitle>
                   </v-list-item-content>
 
-                  <v-list-item-action>
-                    <v-icon
-                      v-if="!item.read"
-                      color="green"
+                  <v-list-item-action
+                    style="display: inline-block"
+                  >
+                    <v-btn
+                      icon
                     >
-                      mdi-email
-                    </v-icon>
+                      <v-icon
+                        v-if="!item.read"
+                        color="green !important"
+                      >
+                        mdi-email
+                      </v-icon>
 
-                    <v-icon
-                      v-else
-                      color="grey lighten-1"
+                      <v-icon
+                        v-else
+                        color="grey lighten-1"
+                        style="float: left"
+                      >
+                        mdi-email-check
+                      </v-icon>
+                    </v-btn>
+                    <v-btn
+                      v-if="!outbox"
+                      icon
+                      @click="deleteMessage(item)"
                     >
-                      mdi-email-check
-                    </v-icon>
+                      <v-icon
+                        color="grey"
+                      >
+                        mdi-delete
+                      </v-icon>
+                    </v-btn>
                   </v-list-item-action>
                 </template>
               </v-list-item>
@@ -59,6 +77,10 @@ export default {
   props: {
     userId: Number,
     onOpen: Function,
+    outbox: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -77,8 +99,14 @@ export default {
       });
   },
   methods: {
+    deleteMessage(message) {
+      axios.delete(`/message/${message.id}`)
+        .then(() => {
+          this.items.splice(this.items.indexOf(message), 1);
+        });
+    },
     onClick(message) {
-      if (message.read === 0) {
+      if (!this.outbox && message.read === 0) {
         axios.put(`/message/${message.id}/read`);
         // eslint-disable-next-line no-param-reassign
         message.read = true;

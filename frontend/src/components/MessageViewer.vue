@@ -1,6 +1,19 @@
 <template>
   <div class="message_viewer">
     <v-card>
+      <v-card-actions
+        v-if="reply"
+        style="float: right; margin: 10px 10px 0"
+      >
+        <v-btn
+          icon
+          @click="clickReply(message)"
+        >
+          <v-icon>
+            mdi-reply
+          </v-icon>
+        </v-btn>
+      </v-card-actions>
       <v-card-title>{{ message.subject }}</v-card-title>
       <v-card-text>
         <span class="from">From : {{ message.fromName }}</span>
@@ -21,6 +34,14 @@ export default {
   name: 'MessageViewer',
   props: {
     messageId: Number,
+    reply: {
+      type: Boolean,
+      default: false,
+    },
+    clickReply: {
+      type: Function,
+      default: () => false,
+    },
   },
   data() {
     return {
