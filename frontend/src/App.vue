@@ -105,9 +105,14 @@ export default {
       userLevel: getUserLevel(),
     };
   },
+  updated() {
+    this.userId = getUserId();
+    this.userLevel = getUserLevel();
+  },
   methods: {
     logout() {
       cookie.remove('Authorization');
+      this.$forceUpdate();
       this.$router.replace('/login');
     },
   },

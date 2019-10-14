@@ -1,9 +1,10 @@
 <template>
-  <div id="home">
+  <div id="outbox">
     <InboxPreview
-      id="inbox"
+      id="preview"
       :userId="userId"
       :onOpen="onSelectMessage"
+      outbox
     />
     <div id="message">
       <MessageViewer
@@ -15,7 +16,7 @@
       <MessageCreator
         v-if="replyMessage !== undefined"
         :default-subject="`Rep : ${replyMessage.subject}`"
-        :to="replyMessage.fromId"
+        :to="replyMessage.toId"
       />
     </div>
   </div>
@@ -50,10 +51,10 @@ export default {
 </script>
 
 <style scoped lang="less">
-#home {
+#outbox {
   height: 100vh;
 
-  #inbox {
+  #preview {
     vertical-align: top;
     width: 30%;
     display: inline-block;

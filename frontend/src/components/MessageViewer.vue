@@ -19,8 +19,10 @@
         <span class="from">From : {{ message.fromName }}</span>
         <br />
         <span class="to">To : {{ message.toName }}</span>
+        <br />
+        <span>{{ moment().unix(message.timestamp).format('LLLL') }}</span>
       </v-card-text>
-      <v-card-text>
+      <v-card-text id="content">
         <p>{{ message.message }}</p>
       </v-card-text>
     </v-card>
@@ -29,6 +31,7 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
 
 export default {
   name: 'MessageViewer',
@@ -67,9 +70,19 @@ export default {
           console.log(error);
         });
     },
+    moment() {
+      return moment;
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
+#content {
+  border-top: grey 1px solid;
+}
+#content p{
+  max-height: 300px;
+  overflow-y: scroll;
+}
 </style>

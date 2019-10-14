@@ -4,18 +4,28 @@ import App from './App.vue';
 import router from './router';
 import vuetify from './plugins/vuetify';
 
+import { getUserLevel } from './utils/session';
+
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
   if (to.meta.authRequested) {
     if (cookie.get('Authorization') === undefined) {
       next('/login');
-    } else {
-      next();
     }
-  } else {
-    next();
   }
+
+  next();
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.beAdmin) {
+    if (getUserLevel() < 1) {
+      next('/');
+    }
+  }
+
+  next();
 });
 
 new Vue({

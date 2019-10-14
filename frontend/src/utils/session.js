@@ -5,7 +5,7 @@ function getUserId() {
     return undefined;
   }
 
-  return JSON.parse(atob(cookie.get('Authorization'))).user_id;
+  return Number(JSON.parse(atob(cookie.get('Authorization'))).user_id);
 }
 
 function getUserLevel() {
@@ -13,7 +13,7 @@ function getUserLevel() {
     return undefined;
   }
 
-  return JSON.parse(atob(cookie.get('Authorization'))).level;
+  return Number(JSON.parse(atob(cookie.get('Authorization'))).level);
 }
 
 export { getUserId, getUserLevel };

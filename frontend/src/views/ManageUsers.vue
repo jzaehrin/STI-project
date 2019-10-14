@@ -27,7 +27,7 @@
                       :to="`/user/${item.id}/edit`"
                     >
                       <v-icon
-                        color="gray"
+                        color="grey"
                       >
                         mdi-account-edit
                       </v-icon>
@@ -51,6 +51,18 @@
                         color="grey lighten-1"
                       >
                         mdi-account-off
+                      </v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                  <v-list-item-action>
+                    <v-btn
+                      icon
+                      @click="deleteUser(item)"
+                    >
+                      <v-icon
+                        color="grey"
+                      >
+                        mdi-delete
                       </v-icon>
                     </v-btn>
                   </v-list-item-action>
@@ -99,6 +111,15 @@ export default {
           // eslint-disable-next-line no-param-reassign
           user.active = (user.active === 1) ? 0 : 1;
           console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    deleteUser(user) {
+      axios.delete(`/user/${user.id}`)
+        .then(() => {
+          this.users.splice(this.users.indexOf(user), 1);
         })
         .catch((error) => {
           console.log(error);

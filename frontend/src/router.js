@@ -9,8 +9,16 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('./views/Home.vue'),
+      name: 'inbox',
+      component: () => import('./views/Inbox.vue'),
+      meta: {
+        authRequested: true,
+      },
+    },
+    {
+      path: '/outbox',
+      name: 'outbox',
+      component: () => import('./views/Outbox.vue'),
       meta: {
         authRequested: true,
       },

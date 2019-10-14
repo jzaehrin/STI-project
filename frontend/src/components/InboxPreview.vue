@@ -7,7 +7,6 @@
       <v-card-text class="inbox-box">
         <v-list two-line>
           <v-list-item-group
-            v-model="item"
             active-class="grey--text"
           >
             <template v-for="(item, index) in items">
@@ -17,19 +16,41 @@
               >
                 <template v-slot:default="{ active, toggle }">
                   <v-list-item-content>
-                    <v-list-item-title v-text="item.from"></v-list-item-title>
-                    <v-list-item-subtitle class="text--primary" v-text="item.subject"></v-list-item-subtitle>
+                    <v-list-item-subtitle v-text="`From: ${item.fromName}`"></v-list-item-subtitle>
+                    <v-list-item-title class="text--primary" v-text="item.subject"></v-list-item-title>
                   </v-list-item-content>
 
                   <v-list-item-action
-                    style="display: inline-block"
+                    v-if="!outbox"
                   >
-                    <v-btn
-                      icon
-                    >
+                    <v-list-item-action-text v-text="humanDate(item.timestamp)"></v-list-item-action-text>
+                    <div>
+                      <v-btn
+                        icon
+                        @click="replyMessage($event, item)"
+                      >
+                        <v-icon
+                          color="grey"
+                        >
+                          mdi-reply
+                        </v-icon>
+                      </v-btn>
+
+                      <v-btn
+                        icon
+                        @click="deleteMessage(item)"
+                      >
+                        <v-icon
+                          color="grey"
+                        >
+                          mdi-delete
+                        </v-icon>
+                      </v-btn>
+
                       <v-icon
                         v-if="!item.read"
-                        color="green !important"
+                        color="green"
+                        style="padding: 5px"
                       >
                         mdi-email
                       </v-icon>
@@ -37,22 +58,11 @@
                       <v-icon
                         v-else
                         color="grey lighten-1"
-                        style="float: left"
+                        style="padding: 5px"
                       >
                         mdi-email-check
                       </v-icon>
-                    </v-btn>
-                    <v-btn
-                      v-if="!outbox"
-                      icon
-                      @click="deleteMessage(item)"
-                    >
-                      <v-icon
-                        color="grey"
-                      >
-                        mdi-delete
-                      </v-icon>
-                    </v-btn>
+                    </div>
                   </v-list-item-action>
                 </template>
               </v-list-item>
@@ -71,12 +81,20 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
 
 export default {
   name: 'InboxPreview',
   props: {
     userId: Number,
-    onOpen: Function,
+    onOpen: {
+      type: Function,
+      default: () => false,
+    },
+    onReply: {
+      type: Function,
+      default: () => false,
+    },
     outbox: {
       type: Boolean,
       default: false,
@@ -89,7 +107,7 @@ export default {
     };
   },
   created() {
-    axios.get(`/user/${this.userId}/inbox`)
+    axios.get(`/user/${this.userId}/${(this.outbox) ? 'outbox' : 'inbox'}`)
       .then((response) => {
         console.log(response);
         this.items = response.data;
@@ -99,6 +117,22 @@ export default {
       });
   },
   methods: {
+    humanDate(timestamp) {
+      const today = moment().startOf('day');
+      const week = moment().startOf('week');
+      const year = moment().startOf('year');
+      const date = moment.unix(timestamp);
+
+      if (date >= today) {
+        return date.fromNow();
+      } else if (date >= week) {
+        return date.format('llll');
+      } else if (date >= year) {
+        return date.format('LL');
+      }
+
+      return date.fromNow();
+    },
     deleteMessage(message) {
       axios.delete(`/message/${message.id}`)
         .then(() => {
@@ -112,7 +146,11 @@ export default {
         message.read = true;
       }
 
-      if (this.onOpen !== undefined) this.onOpen(message);
+      this.onOpen(message);
+    },
+    replyMessage(event, message) {
+      event.stopPropagation();
+      this.onReply(message);
     },
   },
 };

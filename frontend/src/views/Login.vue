@@ -63,6 +63,7 @@ export default {
         })
         .then((response) => {
           console.log(response);
+          this.$parent.$forceUpdate();
           this.$router.push('/');
         })
         .catch((error) => {
