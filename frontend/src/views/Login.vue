@@ -10,6 +10,7 @@
         :rules="usernameRules"
         label="Username"
         required
+        v-on:keyup.enter="login"
       ></v-text-field>
 
       <v-text-field
@@ -20,6 +21,7 @@
         label="Password"
         hint="At least 8 characters"
         required
+        v-on:keyup.enter="login"
       ></v-text-field>
 
       <v-btn
