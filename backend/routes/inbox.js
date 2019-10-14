@@ -16,8 +16,8 @@ router.get('/', function(req, res, next) {
   let rows = stmt.all(req.userId);
 
   rows = rows.map(function (row) {
-    row.fromName = row.fromDel == 0 ? row.fromName : "Delted User";
-    row.toName = row.toDel == 0 ? row.toName : "Delted User";
+    row.fromName = row.fromDel == 0 ? row.fromName : "<Deleted User>";
+    row.toName = row.toDel == 0 ? row.toName : "<Deleted User>";
     delete row.fromDel;
     delete row.toDel;
     return row;

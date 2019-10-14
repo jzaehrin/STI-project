@@ -52,8 +52,8 @@ router.get('/:messageId', function (req, res, next) {
     }
 
     // rename deleted users if found
-    message.fromName = message.fromDel == 0 ? message.fromName : "Delted User";
-    message.toName = message.toDel == 0 ? message.toName : "Delted User";
+    message.fromName = message.fromDel == 0 ? message.fromName : "<Deleted User>";
+    message.toName = message.toDel == 0 ? message.toName : "<Deleted User>";
     delete message.fromDel;
     delete message.toDel;
 
