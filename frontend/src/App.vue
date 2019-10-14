@@ -8,29 +8,39 @@
         <span class="font-weight-light">Powered by vuejs</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-menu
-        open-on-hover
-        close-on-content-click
-        offset-y
+      <template
+        v-if="userId !== undefined"
       >
-        <template v-slot:activator="{ on }">
-          <v-btn
-            text
-            icon
-            v-on="on"
-          >
-            <v-icon>mdi-account</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item
-            href="/changePassword"
-            @click=""
-          >
-            <v-list-item-title>change password</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+        <v-menu
+          open-on-hover
+          close-on-content-click
+          offset-y
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn
+              text
+              icon
+              v-on="on"
+            >
+              <v-icon>mdi-account</v-icon>
+            </v-btn>
+          </template>
+
+            <v-list>
+              <v-list-item
+                to="/changePassword"
+              >
+                <v-list-item-title>change password</v-list-item-title>
+              </v-list-item>
+            </v-list>
+        </v-menu>
+        <v-btn
+          depressed
+          @click="logout()"
+        >
+          Logout
+        </v-btn>
+      </template>
     </v-app-bar>
     <v-navigation-drawer app absolute clipped>
       <v-list dense nav>
@@ -85,6 +95,7 @@
 
 <script>
 import { getUserId, getUserLevel } from './utils/session';
+import cookie from 'js-cookie';
 
 export default {
   name: 'App',
@@ -93,6 +104,12 @@ export default {
       userId: getUserId(),
       userLevel: getUserLevel(),
     };
+  },
+  methods: {
+    logout() {
+      cookie.remove('Authorization');
+      this.$router.replace('/login');
+    },
   },
 };
 </script>

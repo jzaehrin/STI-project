@@ -1,5 +1,5 @@
 <template>
-  <div class="message_creator">
+  <div id="message_creator">
     <h2>Send message</h2>
     <v-form
       v-model="valid"
@@ -47,14 +47,15 @@ export default {
   name: 'MessageCreator',
   props: {
     to: Number,
+    defaultSubject: String,
     onSuccess: Function,
   },
   data() {
     return {
       valid: true,
       lazy: false,
-      toId: 0,
-      subject: '',
+      toId: (this.to !== undefined) ? this.to : 0,
+      subject: (this.defaultSubject !== undefined) ? this.defaultSubject : '',
       subjectRules: [
         v => !!v || 'Subject is required',
       ],
@@ -96,4 +97,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#message_creator {
+  padding: 10px
+}
 </style>

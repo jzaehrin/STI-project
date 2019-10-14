@@ -3,19 +3,28 @@
     <InboxPreview
       id="inbox"
       :userId="userId"
-      :onOpen="(message) => this.messageId = message.id"
+      :onOpen="onSelectMessage"
     />
-    <MessageViewer
-      id="message"
-      v-if="messageId !== undefined"
-      :messageId="messageId"
-    />
+    <div id="message">
+      <MessageViewer
+        v-if="messageId !== undefined"
+        :messageId="messageId"
+        reply
+        :click-reply="(message) => this.replyMessage = message"
+      />
+      <MessageCreator
+        v-if="replyMessage !== undefined"
+        :default-subject="`Rep : ${replyMessage.subject}`"
+        :to="replyMessage.fromId"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import InboxPreview from '../components/InboxPreview.vue';
 import MessageViewer from '../components/MessageViewer.vue';
+import MessageCreator from '../components/MessageCreator.vue';
 import { getUserId } from '../utils/session';
 
 export default {
@@ -23,11 +32,19 @@ export default {
     return {
       userId: getUserId(),
       messageId: undefined,
+      replyMessage: undefined,
     };
+  },
+  methods: {
+    onSelectMessage(message) {
+      this.messageId = message.id;
+      this.replyMessage = undefined;
+    },
   },
   components: {
     InboxPreview,
     MessageViewer,
+    MessageCreator,
   },
 };
 </script>
@@ -49,7 +66,6 @@ export default {
     vertical-align: top;
     width: 70%;
     display: inline-block;
-
   }
 }
 </style>

@@ -1,7 +1,12 @@
 <template>
-  <div class="users">
-    <v-card>
-      <v-btn to="/user/new">Add User</v-btn>
+  <div id="users">
+    <v-card id="list_users">
+      <v-btn
+        primary
+        to="/user/new"
+      >
+        Add User
+      </v-btn>
       <v-card-title>Users</v-card-title>
       <v-card-text class="users-box">
         <v-list two-line>
@@ -19,7 +24,7 @@
                   <v-list-item-action>
                     <v-btn
                       icon
-                      :href="`/user/${item.id}/edit`"
+                      :to="`/user/${item.id}/edit`"
                     >
                       <v-icon
                         color="gray"
@@ -105,6 +110,11 @@ export default {
 
 <style scoped lang="less">
 #users {
-  
+  width: 95%;
+  margin: 30px auto 0 auto;
+
+  #list_users {
+    padding: 10px;
+  }
 }
 </style>

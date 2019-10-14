@@ -2,7 +2,7 @@ import cookie from 'js-cookie';
 
 function getUserId() {
   if (cookie.get('Authorization') === undefined) {
-    throw new Error('Impossible, user not logged !');
+    return undefined;
   }
 
   return JSON.parse(atob(cookie.get('Authorization'))).user_id;
@@ -10,7 +10,7 @@ function getUserId() {
 
 function getUserLevel() {
   if (cookie.get('Authorization') === undefined) {
-    throw new Error('Impossible, user not logged !');
+    return undefined;
   }
 
   return JSON.parse(atob(cookie.get('Authorization'))).level;
