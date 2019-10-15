@@ -7,34 +7,38 @@ assets="$prespath/assets"
 tmppath=$(mktemp -d)
 branch=$(git branch | grep \* | cut -d ' ' -f2)
 
-pushd "$basepath" || exit
+cd "$basepath"
 
 function cleanup() {
-  git checkout "$branch"
-
-  git stash pop
-  rm -rf "$tmppath"
-  popd || exit
+    echo -en "\nCleaning up...\n        - "
+    git checkout "$branch" 1>/dev/null
+    git stash pop 1>/dev/null
+    rm -rf "$tmppath"
 }
 
-pandoc -t revealjs -s -o "$tmppath/index.html" "$mdfile" -V revealjs-url=https://revealjs.com
+echo "pandoc: Creating the reveal.js presentation..."
+pandoc -t revealjs -s -o "$tmppath/index.html" "$mdfile" -V revealjs-url=https://revealjs.com --slide-level=2 --quiet
 
 cp -r "$assets" "$tmppath"
 
-git stash
+echo "   git: Stashing any changes..." 
+git stash 1>/dev/null
 
-if [[ -z $(git rev-parse --verify gh-pages) ]];
+if [[ -z $(git rev-parse --verify gh-pages 2>/dev/null) ]];
 then
-  git checkout --orphan gh-pages
-  git rm -rf "$basepath"
+    echo -en "   git: No 'gh-pages' branch found. Creating one...\n        - "
+    git checkout --orphan gh-pages 1>/dev/null
+    git rm -rf "$basepath" 1>/dev/null
 else
-  git checkout gh-pages
+    echo -en "   git: Existing 'gh-pages' branch found!\n        - "
+    git checkout gh-pages 1>/dev/null
 fi
 
 cp -a "$tmppath/." "$basepath"
 
-git add "$basepath/index.html" "$basepath/assets"
-git commit -m "Push presentation (index.html)"
-git push -u origin gh-pages
+echo -e "   git: Pushing the new presentation with its assets...\n"
+git add "$basepath/index.html" "$basepath/assets" 1>/dev/null
+git commit -m "Push presentation (index.html)" 1>/dev/null
+git push -u origin gh-pages 1>/dev/null
 
 trap cleanup EXIT
