@@ -46,7 +46,9 @@ Nous avons utiliser les libraires suivante:
 ![](assets/img/node.png){ style="width: 70%" }
 
 ::: notes
+Pour le backend, du express.js à été utilisé, il s'agit d'un serveur puissant basé sur node, permettant facilement faire des sites web dynamiques ainsi que des API
 
+Nous avons également utilisé une libraire de base de données sqlite, "better-sqlite3", ainsi que la librairie standard de cryptographie de node.
 :::
 
 ### Express.js
@@ -111,7 +113,7 @@ Voici pour le schema de la table Messages, nous stockant un état de lecture pou
 # Authentification
 
 ::: notes
-
+Le systeme d'authentication et de session est un systeme custom, se reposant sur un cookie, stockant à la fois des donées pour l'utilisateur et pour le serveur.
 :::
 
 ## Cookie
@@ -128,15 +130,20 @@ Voici pour le schema de la table Messages, nous stockant un état de lecture pou
 - `encryptedData` contient la session
 
 ::: notes
-
+Ce cookie expose directement à l'utilisateur son identifiant unique ainsi que son niveau de privilège, mais garde également une donnée chiffrée pour le serveur, permettant de garantir la session de l'utilisateur. 
 :::
 
 ## Session
 
-est stocké 
+Authoritative pour le backend.
+Stocke :
+
+- user_id
+- level
+- validity
 
 ::: notes
-
+Elle est authoritative pour le backend, vis à vis de la session de l'utilisateur et de son niveau de privilège. Si un utilisateur reussi à la falsifier, il lui est possible d'élever ses privilèges sans que le serveur ne les reverifie.
 :::
 
 ## AES256 CBC
@@ -144,7 +151,8 @@ est stocké
 Server key
 
 ::: notes
-
+Nous avons décidé de chiffrer cette donnée authoritative avec un chiffrement AES256 CBC, permettant de garentir une certaine protection contre la modification.
+Nous avons mis en place ce chiffrement en lieu d'une signature, car c'est une technologie que l'on maitrise mieux, bien que moins bien adapté à la situation.
 :::
 
 ## Middleware
@@ -152,7 +160,8 @@ Server key
 Appelé à chaque requête
 
 ::: notes
-
+Un middleware custom d'authentification est appelé à chaque requete sur une zone sensible du site.
+Ce middleware s'assure de valider la session de l'utilisateur, ainsi que de transmettre des données comme étant de confiance aux parties du site en ayant besoin. 
 :::
 
 # Navigation
@@ -166,7 +175,8 @@ Nous allons vous parler ici de l'aspect navigation qui est un peu particulier da
 API `RESTful GET/POST/PUT/DELETE`
 
 ::: notes
-
+Nous avons modelisé notre backend Expressjs afin qu'il puisse servir le frontend statique, et en meme temps, qu'il puisse servir le front-end avec des données relatives à l'utilisateur actuellement connecté.
+Pour ce faire, nous avons mis en place un simple API RESTful
 :::
 
 ## Router
@@ -176,7 +186,10 @@ API `RESTful GET/POST/PUT/DELETE`
 - Accepte l'injection d'argument dans la ressource
 
 ::: notes
-
+Le routeur permet d'associer à un url et une methode HTTP une fonction qui s'occupe de répondre à la dite requete.
+L'access aux données de l'utilisateur, tel que les mails, la liste utilisateurs ou sa boite d'entrée de courrier est strictement séparé afin de pouvoir fournir les données appropriées au moment approprié.
+Une propriétée du routeur fortement utilisée pour le backend est la possibilitée d'injecter un argument dans la requete, et de le propager vers la route appropriée.
+C'est à l'aide de cette propriétée que les données authoritatives de l'authentification sont transmises aux routes en ayant besoin.
 :::
 
 ## Frontend `Vuejs`

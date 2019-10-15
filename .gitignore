@@ -70,3 +70,6 @@ typings/
 # idea file
 .idea
 
+# compiled presentation 
+pres/index.html
+
