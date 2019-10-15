@@ -109,11 +109,14 @@ export default {
   created() {
     axios.get(`/user/${this.userId}/${(this.outbox) ? 'outbox' : 'inbox'}`)
       .then((response) => {
-        console.log(response);
         this.items = response.data;
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+
+        if (error.response.status === 401) {
+          this.$router.replace('/login');
+        }
       });
   },
   methods: {
@@ -137,6 +140,13 @@ export default {
       axios.delete(`/message/${message.id}`)
         .then(() => {
           this.items.splice(this.items.indexOf(message), 1);
+        })
+        .catch((error) => {
+          console.error(error);
+
+          if (error.response.status === 401) {
+            this.$router.replace('/login');
+          }
         });
     },
     onClick(message) {

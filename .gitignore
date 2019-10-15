@@ -66,6 +66,7 @@ typings/
 /backend/server.key
 # package-lock
 /backend/package-lock.json
+/frontend/package-lock.json
 # idea file
 .idea
 

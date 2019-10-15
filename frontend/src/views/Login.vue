@@ -1,5 +1,15 @@
 <template>
   <div id="login">
+    <v-alert
+      :value="error !== undefined"
+      color="pink"
+      dark
+      border="top"
+      icon="mdi-alert-circle"
+      transition="scale-transition"
+    >
+      {{ error }}
+    </v-alert>
     <h2>Login</h2>
     <v-form
       v-model="valid"
@@ -44,6 +54,7 @@ export default {
     return {
       valid: true,
       lazy: false,
+      error: undefined,
       username: '',
       usernameRules: [
         v => !!v || 'Username is required',
@@ -63,13 +74,12 @@ export default {
           user: this.username,
           password: this.password,
         })
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           this.$parent.$forceUpdate();
           this.$router.push('/');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.error = 'Wrong username or password';
         });
     },
   },

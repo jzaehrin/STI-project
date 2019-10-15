@@ -73,7 +73,11 @@ export default {
         this.users = response.data;
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+
+        if (error.response.status === 401) {
+          this.$router.replace('/login');
+        }
       });
   },
   methods: {
@@ -89,7 +93,11 @@ export default {
           if (this.onSuccess !== undefined) this.onSuccess(this);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
+
+          if (error.response.status === 401) {
+            this.$router.replace('/login');
+          }
         });
     },
   },

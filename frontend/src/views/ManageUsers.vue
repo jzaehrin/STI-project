@@ -98,7 +98,11 @@ export default {
         this.users = response.data;
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+
+        if (error.response.status === 401) {
+          this.$router.replace('/login');
+        }
       });
   },
   methods: {
@@ -113,7 +117,11 @@ export default {
           console.log(response);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
+
+          if (error.response.status === 401) {
+            this.$router.replace('/login');
+          }
         });
     },
     deleteUser(user) {
@@ -122,7 +130,11 @@ export default {
           this.users.splice(this.users.indexOf(user), 1);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
+
+          if (error.response.status === 401) {
+            this.$router.replace('/login');
+          }
         });
     },
   },

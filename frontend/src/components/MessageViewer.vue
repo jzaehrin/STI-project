@@ -67,7 +67,11 @@ export default {
           this.message = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
+
+          if (error.response.status === 401) {
+            this.$router.replace('/login');
+          }
         });
     },
     moment() {

@@ -114,7 +114,11 @@ export default {
           this.$router.replace('/users');
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
+
+          if (error.response.status === 401) {
+            this.$router.replace('/login');
+          }
         });
     },
   },

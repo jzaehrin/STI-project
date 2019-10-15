@@ -65,7 +65,11 @@ export default {
         this.fetch = true;
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+
+        if (error.response.status === 401) {
+          this.$router.replace('/login');
+        }
       });
   },
   methods: {
@@ -77,7 +81,11 @@ export default {
           console.log(response);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
+
+          if (error.response.status === 401) {
+            this.$router.replace('/login');
+          }
         });
     },
   },
