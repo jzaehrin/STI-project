@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Filipe Fortunato &amp; Jonathan Zaehringer">
+  <title>Présentation</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://revealjs.com/css/reset.css">
+  <link rel="stylesheet" href="https://revealjs.com/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; } /* Error */
+code span.ex { color: #0099ff; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://revealjs.com/css/theme/blood.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'https://revealjs.com/css/print/pdf.css' : 'https://revealjs.com/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="https://revealjs.com/lib/js/html5shiv.js"></script>
+  <![endif]-->
+  <p><link rel="stylesheet" href="assets/custom.css"></p>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Présentation</h1>
+  <p class="subtitle">Système de messagerie web</p>
+  <p class="author">Filipe Fortunato &amp; Jonathan Zaehringer</p>
+</section>
+
+<section><section id="technologie" class="title-slide slide level1"><h1>Technologie</h1></section><section id="frontend" class="slide level2">
+<h2>Frontend</h2>
+<p><img data-src="assets/img/vuejs.png" style="width: 50%" /></p>
+<aside class="notes">
+
+</aside>
+</section><section id="backend" class="slide level2">
+<h2>Backend</h2>
+<p><img data-src="assets/img/node.png" /></p>
+<aside class="notes">
+
+</aside>
+<h3 id="express.js">Express.js</h3>
+</section></section>
+<section><section id="base-de-données" class="title-slide slide level1"><h1>Base de données</h1><aside class="notes">
+
+</aside></section><section id="sqlite-3" class="slide level2">
+<h2>SQLite 3</h2>
+<aside class="notes">
+
+</aside>
+</section><section id="schema-users" class="slide level2">
+<h2>Schema <code>Users</code></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="dt">id</span><span class="op">:</span> INTEGER PRIMARY<span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>    <span class="dt">username</span><span class="op">:</span> VARCHAR UNIQUE<span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>    <span class="dt">first_name</span><span class="op">:</span> VARCHAR<span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>    <span class="dt">last_name</span><span class="op">:</span> VARCHAR<span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>    <span class="dt">digest_password</span><span class="op">:</span> <span class="at">VARCHAR</span>(<span class="dv">32</span>)<span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>    <span class="dt">active</span><span class="op">:</span> INTEGER<span class="op">,</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>    <span class="dt">deleted</span><span class="op">:</span> INTEGER<span class="op">,</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="op">}</span></span></code></pre></div>
+<p>Mot de passe hashé avec sha256</p>
+<aside class="notes">
+
+</aside>
+</section><section id="schema-message" class="slide level2">
+<h2>Schema <code>Message</code></h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>    <span class="dt">id</span><span class="op">:</span> INTEGER PRIMARY<span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>    <span class="dt">from</span><span class="op">:</span> INTEGER <span class="at">FOREIGN</span>(<span class="va">users</span>.<span class="at">id</span>)<span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="dt">to</span><span class="op">:</span> INTEGER <span class="at">FOREIGN</span>(<span class="va">users</span>.<span class="at">id</span>)<span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>    <span class="dt">subject</span><span class="op">:</span> VARCHAR<span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>    <span class="dt">message</span><span class="op">:</span> VARCHAR<span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>    <span class="dt">read</span><span class="op">:</span> INTEGER<span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>    <span class="dt">timestamp</span><span class="op">:</span> INTEGER<span class="op">,</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="op">}</span></span></code></pre></div>
+<aside class="notes">
+
+</aside>
+</section></section>
+<section><section id="authentification" class="title-slide slide level1"><h1>Authentification</h1><aside class="notes">
+
+</aside></section><section id="cookie" class="slide level2">
+<h2>Cookie</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="dt">&quot;user_id&quot;</span><span class="fu">:</span> <span class="er">Number</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="dt">&quot;level&quot;</span><span class="fu">:</span> <span class="er">Number</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>    <span class="dt">&quot;iv&quot;</span><span class="fu">:</span> <span class="er">String</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>    <span class="dt">&quot;encryptedData&quot;</span><span class="fu">:</span> <span class="er">String</span><span class="fu">,</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="fu">}</span></span></code></pre></div>
+<ul>
+<li><code>encryptedData</code> contient la session</li>
+</ul>
+<aside class="notes">
+
+</aside>
+</section><section id="session" class="slide level2">
+<h2>Session</h2>
+<p>est stocké</p>
+<aside class="notes">
+
+</aside>
+</section><section id="aes256-cbc" class="slide level2">
+<h2>AES256 CBC</h2>
+<p>Server key</p>
+<aside class="notes">
+
+</aside>
+</section><section id="middleware" class="slide level2">
+<h2>Middleware</h2>
+<p>Appelé à chaque requête</p>
+<aside class="notes">
+
+</aside>
+</section></section>
+<section><section id="navigation" class="title-slide slide level1"><h1>Navigation</h1></section><section id="backend-expressjs" class="slide level2">
+<h2>Backend <code>Expressjs</code></h2>
+<p>API <code>RESTful GET/POST/PUT/DELETE</code></p>
+</section><section id="router" class="slide level2">
+<h2>Router</h2>
+<ul>
+<li>Router primitif liant une ressource → une fonction.</li>
+<li>Définition de route <code>RESTful</code></li>
+<li>Accepte l’injection d’argument dans la ressource</li>
+</ul>
+</section><section id="frontend-vuejs" class="slide level2">
+<h2>Frontend <code>Vuejs</code></h2>
+<p>Framework  <code>one page</code></p>
+<p>Sans rechargement</p>
+</section><section id="router-1" class="slide level2">
+<h2>Router</h2>
+<p>Système de routage fictif dans  <code>router.js</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>    <span class="dt">path</span><span class="op">:</span> <span class="st">&#39;/login&#39;</span><span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="dt">name</span><span class="op">:</span> <span class="st">&#39;login&#39;</span><span class="op">,</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>    <span class="dt">component</span><span class="op">:</span> () <span class="kw">=&gt;</span> <span class="im">import</span>(<span class="st">&#39;./views/Login.vue&#39;</span>)<span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="op">},</span></span></code></pre></div>
+</section><section id="appel-à-lapi" class="slide level2">
+<h2>Appel à l’API</h2>
+<p>Données envoyées/reçues de manière asynchrone</p>
+<p>Grace à  <code>Axios</code></p>
+</section></section>
+<section id="démo" class="title-slide slide level1"><h1>Démo</h1></section>
+    </div>
+  </div>
+
+  <script src="https://revealjs.com/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Parallax background image
+        parallaxBackgroundImage: 'assets/img/background_img.jpg', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+        // Parallax background size
+        parallaxBackgroundSize: '1920px 1080px', // CSS syntax, e.g. "2100px 900px"
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'https://revealjs.com/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'https://revealjs.com/plugin/zoom-js/zoom.js', async: true },
+          { src: 'https://revealjs.com/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>

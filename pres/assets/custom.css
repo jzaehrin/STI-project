@@ -1,1 +1,21 @@
-.reveal section img { background:none; border:none; box-shadow:none; }
+.reveal section img {
+    background:none;
+    border:none;
+    box-shadow:none;
+}
+
+.reveal h1 {
+    font-size: 2.4em;
+}
+
+.reveal pre {
+    margin: 0;
+    box-shadow: inherit;
+    padding: 5px;
+}
+
+.reveal p code {
+    background-color: transparent;
+    border: none;
+}
+
