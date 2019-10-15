@@ -31,7 +31,7 @@ module.exports = function (req, res, next) {
         next();
     } else {
         // if the authentication is invalid, we tell the browser to delete the authorisation cookie, by setting its expiration date to 1970...
-        res.cookie('Authorization', '',  {expires: new Date(1)});
+        res.clearCookie('Authorization');
         res.sendStatus(401);
     }
 }
