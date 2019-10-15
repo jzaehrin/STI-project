@@ -108,26 +108,51 @@ code span.wa { color: #da4453; } /* Warning */
   <p class="author">Filipe Fortunato &amp; Jonathan Zaehringer</p>
 </section>
 
-<section><section id="technologie" class="title-slide slide level1"><h1>Technologie</h1></section><section id="frontend" class="slide level2">
-<h2>Frontend</h2>
-<p><img data-src="assets/img/vuejs.png" style="width: 50%" /></p>
-<aside class="notes">
+<section class="slide level2">
 
+<aside class="notes">
+<p>Nous allons vous présenter notre système de messagerie WEB</p>
+</aside>
+</section>
+<section><section id="technologie" class="title-slide slide level1"><h1>Technologie</h1><aside class="notes">
+<p>Pour commencer, nous allons rapidement vous présenter les téchnologies que nous avons utiliser.</p>
+</aside></section><section id="frontend" class="slide level2">
+<h2>Frontend</h2>
+<ul>
+<li>vuejs</li>
+<li>vuetify</li>
+<li>axios</li>
+<li>moment</li>
+</ul>
+<p><img data-src="assets/img/vuejs.png" style="width: 30%" /></p>
+<aside class="notes">
+<p>Dans le cadre du frontend, nous avons utilisé Vuejs qui est un framework javascript permettant de faire une application <code>single page</code> c’est à dire sans avoir de rechargement pour accéder à une nouvelle page. En permettant une décomposition des éléments d’une page pour qu’il soit réutilisable.</p>
+<p>Nous avons utiliser les libraires suivante:</p>
+<ul>
+<li>vuetify est un framework UI mettant à disposition un grande nombre de composant (formulaire, bouton, list, card, menu, etc)</li>
+<li>axios est le fondement du javascript modern en terme de requête asynchrone</li>
+<li>moment est une libraire de travail du temps permettant des affichages sympatiques</li>
+</ul>
 </aside>
 </section><section id="backend" class="slide level2">
 <h2>Backend</h2>
-<p><img data-src="assets/img/node.png" /></p>
+<p><img data-src="assets/img/node.png" style="width: 70%" /></p>
 <aside class="notes">
 
 </aside>
 <h3 id="express.js">Express.js</h3>
 </section></section>
 <section><section id="base-de-données" class="title-slide slide level1"><h1>Base de données</h1><aside class="notes">
-
+<p>Nous allons maintenant parler de la base de données que nous avons implémenter dans ce projet</p>
 </aside></section><section id="sqlite-3" class="slide level2">
 <h2>SQLite 3</h2>
 <aside class="notes">
-
+<p>Nous avons décider d’utiliser SQLite 3 pour faire le stockage des données</p>
+</aside>
+</section><section id="schema" class="slide level2">
+<h2>Schema</h2>
+<aside class="notes">
+<p>Nous allons maintenant vous présenter les schéma de la base de données sous une forme simple pour avoir les informations correctes de typages</p>
 </aside>
 </section><section id="schema-users" class="slide level2">
 <h2>Schema <code>Users</code></h2>
@@ -136,16 +161,16 @@ code span.wa { color: #da4453; } /* Warning */
 <span id="cb1-3"><a href="#cb1-3"></a>    <span class="dt">username</span><span class="op">:</span> VARCHAR UNIQUE<span class="op">,</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a>    <span class="dt">first_name</span><span class="op">:</span> VARCHAR<span class="op">,</span></span>
 <span id="cb1-5"><a href="#cb1-5"></a>    <span class="dt">last_name</span><span class="op">:</span> VARCHAR<span class="op">,</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>    <span class="dt">digest_password</span><span class="op">:</span> <span class="at">VARCHAR</span>(<span class="dv">32</span>)<span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>    <span class="dt">digest_password</span><span class="op">:</span> VARCHAR<span class="op">,</span></span>
 <span id="cb1-7"><a href="#cb1-7"></a>    <span class="dt">active</span><span class="op">:</span> INTEGER<span class="op">,</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a>    <span class="dt">deleted</span><span class="op">:</span> INTEGER<span class="op">,</span></span>
 <span id="cb1-9"><a href="#cb1-9"></a><span class="op">}</span></span></code></pre></div>
 <p>Mot de passe hashé avec sha256</p>
 <aside class="notes">
-
+<p>Voici le schema de la table Users, contenant diverse information convernant l’utilisateur, ces privilèges et son status. Nous avons pris le choix de faire un système de <code>soft-delete</code> pour éviter la perte de données message.</p>
 </aside>
-</section><section id="schema-message" class="slide level2">
-<h2>Schema <code>Message</code></h2>
+</section><section id="schema-messages" class="slide level2">
+<h2>Schema <code>Messages</code></h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">{</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>    <span class="dt">id</span><span class="op">:</span> INTEGER PRIMARY<span class="op">,</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>    <span class="dt">from</span><span class="op">:</span> INTEGER <span class="at">FOREIGN</span>(<span class="va">users</span>.<span class="at">id</span>)<span class="op">,</span></span>
@@ -156,7 +181,7 @@ code span.wa { color: #da4453; } /* Warning */
 <span id="cb2-8"><a href="#cb2-8"></a>    <span class="dt">timestamp</span><span class="op">:</span> INTEGER<span class="op">,</span></span>
 <span id="cb2-9"><a href="#cb2-9"></a><span class="op">}</span></span></code></pre></div>
 <aside class="notes">
-
+<p>Voici pour le schema de la table Messages, nous stockant un état de lecture pour pouvoir dire si le destinataire a lu le message.</p>
 </aside>
 </section></section>
 <section><section id="authentification" class="title-slide slide level1"><h1>Authentification</h1><aside class="notes">
@@ -195,7 +220,7 @@ code span.wa { color: #da4453; } /* Warning */
 </aside>
 </section></section>
 <section><section id="navigation" class="title-slide slide level1"><h1>Navigation</h1><aside class="notes">
-
+<p>Nous allons vous parler ici de l’aspect navigation qui est un peu particulier dans notre projet.</p>
 </aside></section><section id="backend-expressjs" class="slide level2">
 <h2>Backend <code>Expressjs</code></h2>
 <p>API <code>RESTful GET/POST/PUT/DELETE</code></p>
@@ -214,10 +239,11 @@ code span.wa { color: #da4453; } /* Warning */
 </aside>
 </section><section id="frontend-vuejs" class="slide level2">
 <h2>Frontend <code>Vuejs</code></h2>
-<p>Framework  <code>one page</code></p>
+<p>Framework  <code>single page</code></p>
 <p>Sans rechargement</p>
 <aside class="notes">
-
+<p>Pour la partie Frontend, vuejs permettant de faire des <code>single page</code> c’est à dire une page sans rechargement. Il n’est pas nécessaire d’avoir un système de routage. Toutefois, vuejs propose un router fictif permettant à l’utilisateur de voir ce changement et d’intéragire avec s’il le souhaite</p>
+<p>Dans le cadre de notre conception docker, nous n’avons pas pu fournir cette intéraction avec l’url car elle demande d’avoir un serveur dédié à cela et non pas qu’il soit déservis par l’API.</p>
 </aside>
 </section><section id="router-1" class="slide level2">
 <h2>Router</h2>
@@ -229,14 +255,14 @@ code span.wa { color: #da4453; } /* Warning */
 <span id="cb4-5"><a href="#cb4-5"></a>    <span class="dt">component</span><span class="op">:</span> () <span class="kw">=&gt;</span> <span class="im">import</span>(<span class="st">&#39;./views/Login.vue&#39;</span>)<span class="op">,</span></span>
 <span id="cb4-6"><a href="#cb4-6"></a><span class="op">},</span></span></code></pre></div>
 <aside class="notes">
-
+<p>Ce système de routage fictif est définir comme ceux-ci dans le fichier router.js. On y défini le chemin d’accès, son nom et la “Vue” devant être charger dans le template.</p>
 </aside>
 </section><section id="appel-à-lapi" class="slide level2">
 <h2>Appel à l’API</h2>
 <p>Données envoyées/reçues de manière asynchrone</p>
 <p>Grace à  <code>Axios</code></p>
 <aside class="notes">
-
+<p>Qui dit application <code>single page</code> dit chargement des données de manière asynchrone par le biais d’une libraire nommé <code>Axios</code> qui est un wrapper de l’API javascript pour faire des requetes asynchrone XHR.</p>
 </aside>
 </section></section>
 <section id="démo" class="title-slide slide level1"><h1>Démo</h1></section>
