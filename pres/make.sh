@@ -17,7 +17,7 @@ function cleanup() {
 }
 
 echo "pandoc: Creating the reveal.js presentation..."
-pandoc -t revealjs -s -o "$tmppath/index.html" "$mdfile" -V revealjs-url=https://revealjs.com --slide-level=2 --quiet
+pandoc -t revealjs -s -o "$tmppath/index.html" "$mdfile" --highlight-style=breezedark --slide-level=2 --quiet
 
 cp -r "$assets" "$tmppath"
 
