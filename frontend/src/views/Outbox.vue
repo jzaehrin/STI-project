@@ -17,6 +17,7 @@
         v-if="replyMessage !== undefined"
         :default-subject="`Rep : ${replyMessage.subject}`"
         :to="replyMessage.toId"
+        :on-success="() => this.replyMessage = undefined"
       />
     </div>
   </div>

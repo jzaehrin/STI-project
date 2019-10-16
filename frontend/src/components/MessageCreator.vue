@@ -48,7 +48,10 @@ export default {
   props: {
     to: Number,
     defaultSubject: String,
-    onSuccess: Function,
+    onSuccess: {
+      type: Function,
+      default: () => false,
+    },
   },
   data() {
     return {
@@ -61,7 +64,7 @@ export default {
       ],
       message: '',
       messageRules: [
-        v => !!v || 'Password is required',
+        v => !!v || 'Message is required',
       ],
       users: [],
     };
@@ -90,7 +93,7 @@ export default {
         })
         .then((response) => {
           console.log(response);
-          if (this.onSuccess !== undefined) this.onSuccess(this);
+          this.onSuccess(this);
         })
         .catch((error) => {
           console.error(error);

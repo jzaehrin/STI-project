@@ -23,7 +23,7 @@
         <span>{{ moment().unix(message.timestamp).format('LLLL') }}</span>
       </v-card-text>
       <v-card-text id="content">
-        <p>{{ message.message }}</p>
+        <pre>{{ message.message }}</pre>
       </v-card-text>
     </v-card>
   </div>
@@ -85,8 +85,14 @@ export default {
 #content {
   border-top: grey 1px solid;
 }
-#content p{
+#content pre{
   max-height: 300px;
   overflow-y: scroll;
+}
+#content pre {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  font-style: inherit;
+  font-family: inherit;
 }
 </style>

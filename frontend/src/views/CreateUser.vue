@@ -84,7 +84,7 @@ export default {
       passwordRules: [
         v => !!v || 'Password is required',
       ],
-      level: undefined,
+      level: 0,
       levels: [
         {
           name: 'User',

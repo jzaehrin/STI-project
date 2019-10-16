@@ -3,7 +3,18 @@
     <v-card
       height="100vh"
     >
-      <v-card-title>{{ (outbox) ? 'Outbox' : 'Inbox' }}</v-card-title>
+      <v-card-actions
+        style="width: 20%; float: right; padding: 16px 16px 8px;"
+      >
+        <v-btn :loading="refresh" icon color="blue" width="32px" height="32px" @click="receiveMessage()">
+          <v-icon>mdi-refresh</v-icon>
+        </v-btn>
+      </v-card-actions>
+      <v-card-title
+        style="width: 80%;"
+      >
+        {{ (outbox) ? 'Outbox' : 'Inbox' }}
+      </v-card-title>
       <v-card-text class="inbox-box">
         <v-list two-line>
           <v-list-item-group
@@ -87,6 +98,7 @@ export default {
   name: 'InboxPreview',
   props: {
     userId: Number,
+    refresh: false,
     onOpen: {
       type: Function,
       default: () => false,
@@ -107,19 +119,28 @@ export default {
     };
   },
   created() {
-    axios.get(`/user/${this.userId}/${(this.outbox) ? 'outbox' : 'inbox'}`)
-      .then((response) => {
-        this.items = response.data;
-      })
-      .catch((error) => {
-        console.error(error);
+    this.receiveMessage();
 
-        if (error.response.status === 401) {
-          this.$router.replace('/login');
-        }
-      });
+    setInterval(() => {
+      this.receiveMessage();
+    }, 10000);
   },
   methods: {
+    receiveMessage() {
+      this.refresh = true;
+      axios.get(`/user/${this.userId}/${(this.outbox) ? 'outbox' : 'inbox'}`)
+        .then((response) => {
+          this.items = response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+
+          if (error.response.status === 401) {
+            this.$router.replace('/login');
+          }
+        })
+        .finally(() => this.refresh = false);
+    },
     humanDate(timestamp) {
       const today = moment().startOf('day');
       const week = moment().startOf('week');
