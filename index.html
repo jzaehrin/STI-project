@@ -138,7 +138,8 @@ code span.wa { color: #da4453; } /* Warning */
 <h2>Backend</h2>
 <p><img data-src="assets/img/node.png" style="width: 70%" /></p>
 <aside class="notes">
-
+<p>Pour le backend, du express.js à été utilisé, il s’agit d’un serveur puissant basé sur node, permettant facilement faire des sites web dynamiques ainsi que des API</p>
+<p>Nous avons également utilisé une libraire de base de données sqlite, “better-sqlite3”, ainsi que la librairie standard de cryptographie de node.</p>
 </aside>
 <h3 id="express.js">Express.js</h3>
 </section></section>
@@ -185,7 +186,7 @@ code span.wa { color: #da4453; } /* Warning */
 </aside>
 </section></section>
 <section><section id="authentification" class="title-slide slide level1"><h1>Authentification</h1><aside class="notes">
-
+<p>Le systeme d’authentication et de session est un systeme custom, se reposant sur un cookie, stockant à la fois des donées pour l’utilisateur et pour le serveur.</p>
 </aside></section><section id="cookie" class="slide level2">
 <h2>Cookie</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">{</span></span>
@@ -198,25 +199,30 @@ code span.wa { color: #da4453; } /* Warning */
 <li><code>encryptedData</code> contient la session</li>
 </ul>
 <aside class="notes">
-
+<p>Ce cookie expose directement à l’utilisateur son identifiant unique ainsi que son niveau de privilège, mais garde également une donnée chiffrée pour le serveur, permettant de garantir la session de l’utilisateur.</p>
 </aside>
 </section><section id="session" class="slide level2">
 <h2>Session</h2>
-<p>est stocké</p>
+<p>Authoritative pour le backend. Stocke :</p>
+<ul>
+<li>user_id</li>
+<li>level</li>
+<li>validity</li>
+</ul>
 <aside class="notes">
-
+<p>Elle est authoritative pour le backend, vis à vis de la session de l’utilisateur et de son niveau de privilège. Si un utilisateur reussi à la falsifier, il lui est possible d’élever ses privilèges sans que le serveur ne les reverifie.</p>
 </aside>
 </section><section id="aes256-cbc" class="slide level2">
 <h2>AES256 CBC</h2>
 <p>Server key</p>
 <aside class="notes">
-
+<p>Nous avons décidé de chiffrer cette donnée authoritative avec un chiffrement AES256 CBC, permettant de garentir une certaine protection contre la modification. Nous avons mis en place ce chiffrement en lieu d’une signature, car c’est une technologie que l’on maitrise mieux, bien que moins bien adapté à la situation.</p>
 </aside>
 </section><section id="middleware" class="slide level2">
 <h2>Middleware</h2>
 <p>Appelé à chaque requête</p>
 <aside class="notes">
-
+<p>Un middleware custom d’authentification est appelé à chaque requete sur une zone sensible du site. Ce middleware s’assure de valider la session de l’utilisateur, ainsi que de transmettre des données comme étant de confiance aux parties du site en ayant besoin.</p>
 </aside>
 </section></section>
 <section><section id="navigation" class="title-slide slide level1"><h1>Navigation</h1><aside class="notes">
@@ -225,7 +231,7 @@ code span.wa { color: #da4453; } /* Warning */
 <h2>Backend <code>Expressjs</code></h2>
 <p>API <code>RESTful GET/POST/PUT/DELETE</code></p>
 <aside class="notes">
-
+<p>Nous avons modelisé notre backend Expressjs afin qu’il puisse servir le frontend statique, et en meme temps, qu’il puisse servir le front-end avec des données relatives à l’utilisateur actuellement connecté. Pour ce faire, nous avons mis en place un simple API RESTful</p>
 </aside>
 </section><section id="router" class="slide level2">
 <h2>Router</h2>
@@ -235,7 +241,7 @@ code span.wa { color: #da4453; } /* Warning */
 <li>Accepte l’injection d’argument dans la ressource</li>
 </ul>
 <aside class="notes">
-
+<p>Le routeur permet d’associer à un url et une methode HTTP une fonction qui s’occupe de répondre à la dite requete. L’access aux données de l’utilisateur, tel que les mails, la liste utilisateurs ou sa boite d’entrée de courrier est strictement séparé afin de pouvoir fournir les données appropriées au moment approprié. Une propriétée du routeur fortement utilisée pour le backend est la possibilitée d’injecter un argument dans la requete, et de le propager vers la route appropriée. C’est à l’aide de cette propriétée que les données authoritatives de l’authentification sont transmises aux routes en ayant besoin.</p>
 </aside>
 </section><section id="frontend-vuejs" class="slide level2">
 <h2>Frontend <code>Vuejs</code></h2>
