@@ -203,7 +203,7 @@ Pour la partie Frontend, vuejs permettant de faire des `single page` c'est à di
 Il n'est pas nécessaire d'avoir un système de routage.
 Toutefois, vuejs propose un router fictif permettant à l'utilisateur de voir ce changement et d'intéragire avec s'il le souhaite
 
-Dans le cadre de notre conception docker, nous n'avons pas pu fournir cette intéraction avec l'url car elle demande d'avoir un serveur dédié à cela et non pas qu'il soit déservis par l'API.
+Il utilise les anchors pour naviguer dans ces routes.
 :::
 
 ## Router
