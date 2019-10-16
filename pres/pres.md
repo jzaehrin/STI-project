@@ -10,10 +10,6 @@ header-includes : |
     <link rel="stylesheet" href="assets/custom.css">
 ---
 
-::: notes
-Nous allons vous présenter notre système de messagerie WEB
-:::
-
 # Technologie
 
 ::: notes
