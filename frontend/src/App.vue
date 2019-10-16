@@ -87,15 +87,15 @@
     </v-navigation-drawer>
 
     <v-content>
-      <router-view></router-view>
+      <router-view />
     </v-content>
   </v-app>
 
 </template>
 
 <script>
-import { getUserId, getUserLevel } from './utils/session';
 import cookie from 'js-cookie';
+import { getUserId, getUserLevel } from './utils/session';
 
 export default {
   name: 'App',
