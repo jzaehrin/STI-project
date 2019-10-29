@@ -114,6 +114,7 @@ export default {
   },
   data() {
     return {
+      refreshInterval: undefined,
       items: [
       ],
     };
@@ -121,9 +122,12 @@ export default {
   created() {
     this.receiveMessage();
 
-    setInterval(() => {
+    this.refreshInterval = setInterval(() => {
       this.receiveMessage();
     }, 10000);
+  },
+  beforeDestroy() {
+    clearInterval(this.refreshInterval);
   },
   methods: {
     receiveMessage() {
