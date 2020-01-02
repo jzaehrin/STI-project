@@ -22,7 +22,7 @@ Les comptes peuvent potentiellement être payants à l'avenir.
 La partie backend est de confiance avec la base de données ainsi que ces administrateurs.
 
 Les exigences de sécurités sont les suivantes :
-- L'application ne doit pas être accessible uniquement aux utilisateurs authentifiés
+- L'application ne doit être accessible uniquement aux utilisateurs authentifiés
 - Les messages doivent être uniquement visibles par l'expéditeur et destinataire
 - Un utilisateur n'ayant pas le rôle d'administrateur ne doit pas pouvoir accéder au panel d'administration
 - Un compte désactivé ne doit pas pouvoir s'authentifier ni pouvoir interagir avec l'application
@@ -36,19 +36,19 @@ Base de données des messages :
 
 Base de données des utilisateurs :
 - Confidentialité, sphère privée
-- Incident nuerait à la réputation de l'application
+- Incident nuierait à la réputation de l'application
 
 ## Source de menace
 
 Hackers, script kiddies
 - Motivation : s'amuser
-- Cible : découvert de bug, spam
+- Cible : découverte de bug, spam
 - Potentialité : Moyenne
 
 Cybercrime (spam, maliciels)
 - Motivation : financière
 - Cible : Phising, spam sur les clients authentifiés, lecture/modification des messages, accès au panel admin
-- Potentialité : Élève
+- Potentialité : Élevée
 
 Concurrent
 - Motivation : Arrêt du service
@@ -67,7 +67,7 @@ Concurrent
 - Motivation : Récupération d'information, destruction de la réputation
 - Actif : Base de données des messages
 - Sénario d'attaque : Injection SQL, CSRF, Erreur de contrôle
-- Controls : Contrôle d'origine (CORS), Prepare statement, validation d'entré
+- Contrôles : Contrôle d'origine (CORS), Prepare statement, validation d'entrée
 
 ### Modification de message
 - Business impact : Élevé (perte d'intégrité)
@@ -75,7 +75,7 @@ Concurrent
 - Motivation : Modification d'information, destruction de la réputation
 - Actif : Base de données des messages
 - Sénario d'attaque : Injection SQL, CSRF, Erreur de contrôle
-- Controls : Contrôle d'origine (CORS), Prepare statement, validation d'entré
+- Contrôles : Contrôle d'origine (CORS), Prepare statement, validation d'entrée
 
 ### Spamming
 - Business impact : Moyen (perte de réputation)
@@ -83,7 +83,7 @@ Concurrent
 - Motivation : Financière
 - Actif : Base de données utilisateur
 - Sénario d'attaque : Accès à de faux comptes ou volés
-- Controls : Détection de vol de compte
+- Contrôles : Détection de vol de compte
 
 ### Vol de session
 - Business impact : Élevé (perte de confiance)
@@ -91,7 +91,7 @@ Concurrent
 - Motivation : Envoi de message illégitime, Elevation de privilège
 - Actif : Base de données utilisateur, Base de données de messages
 - Sénario d'attaque : XSS
-- Controls : HTML Sanitize
+- Contrôles : HTML Sanitize
 
 ## Mitigation des risques
 

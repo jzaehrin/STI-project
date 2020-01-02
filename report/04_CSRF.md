@@ -40,7 +40,7 @@ La seule possibilité est l'attaque par un formulaire classique qui lui redirige
 Dans ce cas, expressjs semble sauvé la situation, car il est très strict sur la forme des données ce qui bloque ces états.
 
 Par contre, dans le cas du premier formulaire qui n'est pas standard, mais qui fournit un JSON valide dans le cas de chrome (79.0.3945.79).
-L'erreur qui survient est une mauvaise construction du parser d’expressjs qui fourni un objet null donc le prototype contient les champs envoyés.
+L'erreur qui survient est une mauvaise construction du parser d’expressjs qui fournit un objet null donc le prototype contient les champs envoyés.
 Cela ne semble pas avoir d'impact, car impossible de créer du code exécutable, mais la seule barrière reste ces tests de validations :
 
 ```javascript
