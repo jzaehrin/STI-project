@@ -66,7 +66,7 @@ Le frontend est fourni par le backend ce qui permet de ne pas avoir de CORS déf
 L'API ne travail uniquement en JSON ce qui impose donc de pouvoir envoyer du JSON par un formulaire HTML.
 :::
 
-## Tentative d'attaique
+## Tentative d'attaque
 
 ```html
 <form method="POST" action="http://localhost:3000/message" enctype="text/plain">
@@ -84,7 +84,7 @@ Ce formulaire permet parfois de profiter de faille de type CSRF, dans notre cas 
 ##
 
 ```html
-<form method="POST" action="http://localhost:3000/message" enctype="application/json">
+<form method="POST" action="http://localhost:3000/message">
     <input type="number" name='to' value='1'/>
     <input type="text" name='subject' value="CRSF PWNED" />
     <input type="text" name='message' value='HAHAH' />
@@ -93,10 +93,10 @@ Ce formulaire permet parfois de profiter de faille de type CSRF, dans notre cas 
 ```
 
 ::: notes
-Sur chrome, il est possible de faire ce type de formulaire qui n'est pas standard mais qui utilise un fonctionnement qui est en cours de discussion dans les standards du WEB.
+Dans notre cas, l'application comportait le parser pour les types `application/x-www-form-urlencoded` mais le serveur ne traite uniquement les données en JSON.
+Cela avait pour concequence de faire planter la requete ce qui aurait pu permettre d'expoiter le parser pour effectuer un CSRF.
 
-Il permet d'envoyer un JSON valide au premier abord mais cependant cela n'a pas fonctionner.
-Expressjs n'arrive pas à le parse de manière classique et créer un objet null qui fait planter la suite du programme.
+L'application n'accepte que le JSON donc il n'est pas nécessaire de l'avoir. nous avons donc désactiver celui-ci pour éviter tout risque.
 :::
 
 # Bad crypto
