@@ -32,7 +32,7 @@ Le projet initiale a été développer avec un frontend en Single Page App en vu
 Nous allons vous présenter les attaques intéressantes que nous avons pu faire sur cette infrastructure.
 :::
 
-# Analyse de Menace
+# Analyse de Menaces
 
 ## DFD
 
@@ -44,7 +44,7 @@ Nous pouvons rapidement voir la frontière de confiance qui se trouve réellemen
 On voit bien que les attaques peuvent être faite directement sur le backend sans passer par le frontend.
 :::
 
-## Point critique
+## Points critiques
 
 - L'intégrité
 - La confidentialité
@@ -55,7 +55,7 @@ Si une faille permet de lire/modifier/envoyer des messages sans être autorisé 
 
 # CSRF
 
-## Prerequis
+## Prérequis
 
 - pas de cross-origin
 - JSON valide
@@ -66,7 +66,7 @@ Le frontend est fourni par le backend ce qui permet de ne pas avoir de CORS déf
 L'API ne travail uniquement en JSON ce qui impose donc de pouvoir envoyer du JSON par un formulaire HTML.
 :::
 
-## Tentative d'attaque
+## Tentatives d'attaques
 
 ```html
 <form method="POST" action="http://localhost:3000/message" enctype="text/plain">
@@ -100,9 +100,17 @@ L'application n'accepte que le JSON donc il n'est pas nécessaire de l'avoir. no
 :::
 
 # Bad crypto
+## Sources des problémes
+
+- IV réutilisé
+- AES-CBC 
+- IV malléable
+## Schéma CBC
+![AES-CBC explained](./assets/img/cbc-explained.png)
 
 ::: notes
-
+Bien expliquer que CBC est très malléable si l'IV l'est. Comme démontré dans l'illustration le premier bloc peut être modifié.
+L'IV réutilisé même sans pouvoir le modifier aurait été une faille car il y aurait eu Information Disclosure
 :::
 
 # Echec

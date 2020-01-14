@@ -38,11 +38,11 @@ La seule possibilité est l'attaque par un formulaire classique qui lui redirige
 ### Mitigation
 
 Dans ce cas, expressjs semble sauvé la situation, car il est très strict sur la forme des données ce qui bloque ces états.
-Pour le 3ème formulaire, un JSON valide (`{"to":1,"subject":"CRSF PWNED", "message":"=HAHAH"}`) est envoyer mais avec un mime-type `text/plain` mais cela n'est pas accépter par express.
-Dans le cas d'autre téchnologie comme `spring`, cette attaque est totalement possible.
+Pour le 3ème formulaire, un JSON valide (`{"to":1,"subject":"CRSF PWNED", "message":"=HAHAH"}`) est envoyer mais avec un mime-type `text/plain` mais cela n'est pas accepter par express.
+Dans le cas d'autres technologies comme `spring`, cette attaque est totalement possible.
 Dans le 4ème formulaire, le résultat n'est clairement pas compris par express.
 
-Par contre, dans le cas du premier formulaire qui n'est pas standard, mais n'a pas d'impact sur le type de contenu (application/x-www-form-urlencoded).
+Par contre, dans le cas du premier formulaire qui n'est pas standard, mais n'a pas d'impact sur le type de contenu (`application/x-www-form-urlencoded`).
 L'erreur qui survient est une mauvaise construction du parser d’expressjs qui fournit un objet null donc le prototype contient les champs envoyés.
 Le problème provient de la présence du parser mais le code n'est fait uniquement pour parser du JSON ce qui fait planter lors de l'envoi de ces données.
 
@@ -56,6 +56,6 @@ if (!req.body.hasOwnProperty('to') || !req.body.hasOwnProperty('subject') || !re
 ```
 
 Dans ce cas, la fonction `hasOwnProperty` n'existe pas et crée une erreur `500`.
-Cependant cela pourrait être exploiter au cas de faille dans le parser, il est donc nécessaire de corriger celà en supprimant la ligne `app.use(express.urlencoded({ extended: false }));`.
+Cependant cela pourrait être exploité au cas de faille dans le parser, il est donc nécessaire de corriger cela en supprimant la ligne `app.use(express.urlencoded({ extended: false }));`.
 
 Pour conclure, le site n'est pas attaquable par CSRF car express est suffisamment rigoureux pour ne pas laisser passer des JSON forger par du HTML.

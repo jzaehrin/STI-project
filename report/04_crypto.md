@@ -12,17 +12,17 @@ Ceci est une très grosse vulnérabilité avec CBC, en effet l'IV est utilisé l
 Ainsi l'attaque se déroule comme suit :
 Nous partons d'un utilisateur authentifié quelconque (ici test).
 Son token Authorization se présente comme suit :
-'eyJpdiI6IjcyYzMwNTI2N2QwZGNkYTcxZjdjMTk4ZjBkNjZiYmNlIiwiZW5jcnlwdGVkRGF0YSI6IjM1YWZjMzAyNWM5NzE4MGQ3MGMxNDFkMjZkN2RlMzE4OGI1NzFkZTljYzZkODc3NjU0YTc2YWVhMGFjMDc0MzQwYmNkZDVmYTI3NDM4MjlkYzYxMTBhMGM5MmRkYWRlMCIsImtleSI6IkFRam1CdW5GcXFrZlZtdTFiNGVYUXI4RVAyTk5NYkZcbiIsInVzZXJfaWQiOjIsImxldmVsIjowfQ'
+`eyJpdiI6IjcyYzMwNTI2N2QwZGNkYTcxZjdjMTk4ZjBkNjZiYmNlIiwiZW5jcnlwdGVkRGF0YSI6IjM1YWZjMzAyNWM5NzE4MGQ3MGMxNDFkMjZkN2RlMzE4OGI1NzFkZTljYzZkODc3NjU0YTc2YWVhMGFjMDc0MzQwYmNkZDVmYTI3NDM4MjlkYzYxMTBhMGM5MmRkYWRlMCIsImtleSI6IkFRam1CdW5GcXFrZlZtdTFiNGVYUXI4RVAyTk5NYkZcbiIsInVzZXJfaWQiOjIsImxldmVsIjowfQ`
 
 Qui décodé de la base64 done :
-```
+```json
 {"iv":"72c305267d0dcda71f7c198f0d66bbce","encryptedData":"35afc3025c97180d70c141d26d7de3188b571de9cc6d877654a76aea0ac074340bcdd5fa2743829dc6110a0c92ddade0","key":"AQjmBunFqqkfVmu1b4eXQr8EP2NNMbF\n","user_id":2,"level":0}
 ```
 
 L'on voit donc l'IV qui nous est donnée en hexadécimal dans le cookie, et qui est donc manipulable.
 C'est un problème comme on peut le voir dans cette image ci-dessous :
-![Explanation of CBC bit-flip attack](./assets/images/cbc-explained.png)
 
+![Explanation of CBC bit-flip attack](./assets/images/cbc-explained.png)
 
 Grâce à cela nous pouvons modifier le premier bloc de données à notre bon vouloir. Analysons donc ce qu'il peut bien avoir dans ce chiffré. 
 Pour cette étape nous avons besoin du code, sinon nous ne pouvons à priori pas deviner le payload du chiffré. (Fichier login.js)
@@ -36,7 +36,9 @@ let session = {};
     let cookie = Crypto.encrypt(JSON.stringify(session));
 ```
 Nous pouvons donc savoir que le plaintext sera sous cette forme :
+```json
 {"user":x,"role":x,"validity":x}
+```
 Et c'est vérifiable en utilisant la clé de déchiffrement (à des fins de démonstration, pas utile dans l'attaque) :
 ![Example déchiffrement](./assets/images/cbc-decrypted.png)
 Sachant qu'AES fonctionne en bloc de 16bytes l'on peut déterminer le premier bloc de données comme suit :

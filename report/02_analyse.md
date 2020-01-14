@@ -1,44 +1,44 @@
-# Analyse de Menace
+# Analyse de Menaces
 
 ## Description du système
 
 L'application est une messagerie permettant d'échanger des messages entre les utilisateurs `authentifiés`.
-Elle se compose d'un frontend de type SPA (Single page application) développé en Vuejs.
-Ce frontend communique avec un API backend proposant les différents services permettant le bon fonctionnement de l'application.
+Elle se compose d'un frontend de type SPA (Single Page Application) développé en VueJS.
+Ce frontend communique avec une API backend proposant les différents services permettant le bon fonctionnement de l'application.
 Développé en expressjs, il communique avec une base de données MariaDB stockant l'ensemble des données persistantes.
 
-## Fonctionnalité
+## Fonctionnalités
 
-Les utilisateurs non authentifiés ne peuvent uniquement s'authentifier.
+Les utilisateurs non authentifiés peuvent uniquement s'authentifier.
 Les utilisateurs authentifiés peuvent échanger des messages avec les autres utilisateurs.
 Il peut consulter ces messages et ceux qu'il a envoyés.
 
-Les administrateurs de l'application, on l'a capacité de créer de nouveau compte, de les activer/désactiver et de les supprimées.
+Les administrateurs de l'application ont la capacité de créer des nouveaux comptes, de les activer/désactiver et de les supprimés.
 
 Les comptes peuvent potentiellement être payants à l'avenir.
 
-## Hypothèses et Exigences de Sécurité
+## Hypothèses et éxigences de sécurité
 
 La partie backend est de confiance avec la base de données ainsi que ces administrateurs.
 
-Les exigences de sécurités sont les suivantes :
-- L'application ne doit être accessible uniquement aux utilisateurs authentifiés
-- Les messages doivent être uniquement visibles par l'expéditeur et destinataire
-- Un utilisateur n'ayant pas le rôle d'administrateur ne doit pas pouvoir accéder au panel d'administration
-- Un compte désactivé ne doit pas pouvoir s'authentifier ni pouvoir interagir avec l'application
+Les éxigences de sécurités sont les suivantes :
+- L'application ne doit être accessible qu'aux utilisateurs authentifiés.
+- Les messages doivent être uniquement visibles par l'expéditeur et le destinataire.
+- Un utilisateur n'ayant pas le rôle d'administrateur ne doit pas pouvoir accéder au panel d'administration.
+- Un compte désactivé ne doit pas pouvoir s'authentifier ni pouvoir interagir avec l'application.
 
 ## Actifs à haute valeur
 
 Base de données des messages :
 - Confidentialité, sphère privée
 - Intégrité (une modification pourrait avoir de grave conséquence)
-- Incident nuerait gravement à la réputation de l'application
+- Incident nuierait gravement à la réputation de l'application
 
 Base de données des utilisateurs :
 - Confidentialité, sphère privée
 - Incident nuierait à la réputation de l'application
 
-## Source de menace
+## Source de menaces
 
 Hackers, script kiddies
 - Motivation : s'amuser
@@ -59,7 +59,7 @@ Concurrent
 
 ![DFD](./assets/images/DFD.png)
 
-## Sénario d'attaque
+## Scénario d'attaque
 
 ### Lecture de message
 - Business impact : Élevé (perte de confidentialité)
