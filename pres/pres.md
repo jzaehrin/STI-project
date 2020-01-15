@@ -1,6 +1,6 @@
 ---
 author: Mickael Bonjour & Jonathan Zaehringer
-title: Présentation
+title: Presentation
 subtitle: Système de messagerie web sécurisé
 theme: blood
 parallaxBackgroundImage: "assets/img/background_img.jpg"
@@ -18,7 +18,7 @@ header-includes : |
 - Analyse de Menace
 - CSRF
 - Bad crypto
-- Echec
+- Echecs
 - Conclusion
 
 # Introduction
@@ -27,7 +27,7 @@ header-includes : |
 - backend API RESTful en expressjs 
 
 ::: notes
-Le projet initiale a été développer avec un frontend en Single Page App en vuejs et une API RESTful en expressjs.
+Le projet initial a été développer avec un frontend en Single Page App en vuejs et une API RESTful en expressjs.
 
 Nous allons vous présenter les attaques intéressantes que nous avons pu faire sur cette infrastructure.
 :::
@@ -50,7 +50,7 @@ On voit bien que les attaques peuvent être faite directement sur le backend san
 - La confidentialité
 
 ::: notes
-Si une faille permet de lire/modifier/envoyer des messages sans être autorisé à accéder à ce compte, cela est extremement critique et peut détruire le service.
+Si une faille permet de lire/modifier/envoyer des messages sans être autorisé à accéder à ce compte, cela est extrêmement critique et peut détruire le service.
 :::
 
 # CSRF
@@ -61,9 +61,9 @@ Si une faille permet de lire/modifier/envoyer des messages sans être autorisé 
 - JSON valide
 
 ::: notes
-Le frontend est fourni par le backend ce qui permet de ne pas avoir de CORS défini ce qui implique une certaine sécurité.
+Le frontend est fourni par le backend ce qui permet de ne pas avoir de CORS définis ce qui implique une certaine sécurité.
 
-L'API ne travail uniquement en JSON ce qui impose donc de pouvoir envoyer du JSON par un formulaire HTML.
+L'API ne travaille uniquement en JSON ce qui impose donc de pouvoir envoyer du JSON par un formulaire HTML.
 :::
 
 ## Tentatives d'attaques
@@ -76,7 +76,7 @@ L'API ne travail uniquement en JSON ce qui impose donc de pouvoir envoyer du JSO
 ```
 
 ::: notes
-Il n'est pas possible d'envoyer du JSON de manière standard. mais il est possible d'abuser de certaine option.
+Il n'est pas possible d'envoyer du JSON de manière standard. Mais il est possible d'abuser de certaines options.
 
 Ce formulaire permet parfois de profiter de faille de type CSRF, dans notre cas cela n'a pas fonctionner.
 :::
@@ -93,14 +93,14 @@ Ce formulaire permet parfois de profiter de faille de type CSRF, dans notre cas 
 ```
 
 ::: notes
-Dans notre cas, l'application comportait le parser pour les types `application/x-www-form-urlencoded` mais le serveur ne traite uniquement les données en JSON.
-Cela avait pour concequence de faire planter la requete ce qui aurait pu permettre d'expoiter le parser pour effectuer un CSRF.
+Dans notre cas, l'application comportait le parser pour les types, `application/x-www-form-urlencoded` mais le serveur ne traite uniquement les données en JSON.
+Cela avait pour conséquence de faire planter la requête ce qui aurait pu permettre d'exporter le parser pour effectuer un CSRF.
 
-L'application n'accepte que le JSON donc il n'est pas nécessaire de l'avoir. nous avons donc désactiver celui-ci pour éviter tout risque.
+L'application n'accepte que le JSON donc il n'est pas nécessaire de l'avoir. nous avons donc désactivé celui-ci pour éviter tout risque.
 :::
 
 # Bad crypto
-## Sources des problémes
+## source des problèmes
 
 - IV réutilisé
 - AES-CBC 
@@ -111,11 +111,11 @@ L'application n'accepte que le JSON donc il n'est pas nécessaire de l'avoir. no
 ![AES-CBC explained](./assets/img/cbc-explained.png)
 
 ::: notes
-Bien expliquer que CBC est très malléable si l'IV l'est. Comme démontré dans l'illustration le premier bloc peut être modifié.
-L'IV réutilisé même sans pouvoir le modifier aurait été une faille car il y aurait eu Information Disclosure
+Bien expliquer que CBC est très malléable si l'IV l'est. Comme démontré dans l'illustration, le premier bloc peut être modifié.
+L'IV réutilisé même sans pouvoir le modifier aurait été une faille, car il y aurait eu Information Disclosure
 :::
 
-# Echec
+# Échec
 
 - XSS - vuejs sanitize tout input
 - Injection SQL - Sécurisé par Prepare Statements
