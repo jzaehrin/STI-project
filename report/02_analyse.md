@@ -13,15 +13,15 @@ Les utilisateurs non authentifiés peuvent uniquement s'authentifier.
 Les utilisateurs authentifiés peuvent échanger des messages avec les autres utilisateurs.
 Il peut consulter ces messages et ceux qu'il a envoyés.
 
-Les administrateurs de l'application ont la capacité de créer des nouveaux comptes, de les activer/désactiver et de les supprimés.
+Les administrateurs de l'application ont la capacité de créer des nouveaux comptes, de les activer/désactiver et de les supprimer.
 
 Les comptes peuvent potentiellement être payants à l'avenir.
 
-## Hypothèses et éxigences de sécurité
+## Hypothèses et exigences de sécurité
 
 La partie backend est de confiance avec la base de données ainsi que ces administrateurs.
 
-Les éxigences de sécurités sont les suivantes :
+Les exigences de sécurités sont les suivantes :
 - L'application ne doit être accessible qu'aux utilisateurs authentifiés.
 - Les messages doivent être uniquement visibles par l'expéditeur et le destinataire.
 - Un utilisateur n'ayant pas le rôle d'administrateur ne doit pas pouvoir accéder au panel d'administration.
@@ -32,11 +32,11 @@ Les éxigences de sécurités sont les suivantes :
 Base de données des messages :
 - Confidentialité, sphère privée
 - Intégrité (une modification pourrait avoir de grave conséquence)
-- Incident nuierait gravement à la réputation de l'application
+- Incident nuirait gravement à la réputation de l'application
 
 Base de données des utilisateurs :
 - Confidentialité, sphère privée
-- Incident nuierait à la réputation de l'application
+- Incident nuirait à la réputation de l'application
 
 ## Source de menaces
 
@@ -67,7 +67,7 @@ Concurrent
 - Motivation : Récupération d'information, destruction de la réputation
 - Actif : Base de données des messages
 - Sénario d'attaque : Injection SQL, CSRF, Erreur de contrôle
-- Contrôles : Contrôle d'origine (CORS), Prepare statement, validation d'entrée
+- Contrôles : Contrôle d'origine (CORS), Prepared statement, validation d'entrée
 
 ### Modification de message
 - Business impact : Élevé (perte d'intégrité)
@@ -75,7 +75,7 @@ Concurrent
 - Motivation : Modification d'information, destruction de la réputation
 - Actif : Base de données des messages
 - Sénario d'attaque : Injection SQL, CSRF, Erreur de contrôle
-- Contrôles : Contrôle d'origine (CORS), Prepare statement, validation d'entrée
+- Contrôles : Contrôle d'origine (CORS), Prepared statement, validation d'entrée
 
 ### Spamming
 - Business impact : Moyen (perte de réputation)

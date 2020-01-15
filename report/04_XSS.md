@@ -13,7 +13,7 @@ alert(1);
 ### Mitigation
 
 Aucun résultat n'a été efficace, car Vuejs sanitize l'ensemble des strings qu'il affiche à l'utilisateur.
-Aucune vulnérabilité permettant une XSS n'existe depuis decembre 2018 version <2.5.17 ([https://snyk.io/vuln/npm:vue](https://snyk.io/vuln/npm:vue)).
+Aucune vulnérabilité permettant une XSS n'existe depuis décembre 2018 version <2.5.17 ([https://snyk.io/vuln/npm:vue](https://snyk.io/vuln/npm:vue)).
 
 Nous pouvons voir que l'injection du message c'est bien fait dans la base de données :
 ```json

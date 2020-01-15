@@ -105,6 +105,8 @@ L'application n'accepte que le JSON donc il n'est pas nécessaire de l'avoir. no
 - IV réutilisé
 - AES-CBC 
 - IV malléable
+
+
 ## Schéma CBC
 ![AES-CBC explained](./assets/img/cbc-explained.png)
 
