@@ -31,3 +31,4 @@ Nous pouvons voir que l'injection du message c'est bien fait dans la base de don
 ```
 
 La protection provient bien du moment de l'affichage par le biais de vuejs qui protègent l'utilisateur des données récupérées.
+

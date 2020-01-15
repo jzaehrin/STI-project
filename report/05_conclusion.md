@@ -16,3 +16,4 @@ Ainsi que `vuejs` qui s'occupe de `sanitize` l'ensemble des données affichées 
 
 On pourra conclure par le faîte que l'utilisation de technologies moderne ayant été penser dans le cadre actuel d'attaque permet d'éviter un grand nombre d'attaques "simple".
 Toutefois, cela n'est pas magique, il est nécessaire de faire attention, car cela n'est pas forcément le cas. Il faut donc nécessairement tester pour s'assurer que les protections existent et qu'elles sont correctement utilisées.
+

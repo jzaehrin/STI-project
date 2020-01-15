@@ -59,3 +59,4 @@ Dans ce cas, la fonction `hasOwnProperty` n'existe pas et crée une erreur `500`
 Cependant cela pourrait être exploité au cas de faille dans le parser, il est donc nécessaire de corriger cela en supprimant la ligne `app.use(express.urlencoded({ extended: false }));`.
 
 Pour conclure, le site n'est pas attaquable par CSRF, car express est suffisamment rigoureux pour ne pas laisser passer des JSON forger par du HTML.
+
