@@ -5,7 +5,15 @@
 }
 
 .reveal h1 {
-    font-size: 2.4em;
+    font-size: 1.9em;
+}
+
+.reveal h2 {
+    font-size: 1.4em;
+}
+
+.reveal img {
+    width: 50%;
 }
 
 .reveal pre {
@@ -17,5 +25,9 @@
 .reveal p code {
     background-color: transparent;
     border: none;
+}
+
+.reveal pre code {
+    font-size: 0.7em;
 }
 

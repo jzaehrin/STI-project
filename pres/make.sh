@@ -21,8 +21,8 @@ pandoc -t revealjs -s -o "$tmppath/index.html" "$mdfile" --highlight-style=breez
 
 cp -r "$assets" "$tmppath"
 
-echo "   git: Stashing any changes..." 
-git stash 1>/dev/null
+echo "   git: Stashing any changes..."
+git stash 1>/dev/nulls
 
 if [[ -z $(git rev-parse --verify gh-pages 2>/dev/null) ]];
 then

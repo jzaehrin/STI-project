@@ -10,8 +10,6 @@ header-includes : |
     <link rel="stylesheet" href="assets/custom.css">
 ---
 
-# STI - Projet 2
-
 # Table des matières
 
 - Introduction
@@ -36,7 +34,7 @@ Nous allons vous présenter les attaques intéressantes que nous avons pu faire 
 
 ## DFD
 
-![DFD](assets/img/DFD.png)
+![](assets/img/DFD.png)
 
 ::: notes
 Nous pouvons rapidement voir la frontière de confiance qui se trouve réellement au niveau du backend.
@@ -57,7 +55,7 @@ Si une faille permet de lire/modifier/envoyer des messages sans être autorisé 
 
 ## Prérequis
 
-- pas de cross-origin
+- pas de cross-origine
 - JSON valide
 
 ::: notes
@@ -100,6 +98,7 @@ L'application n'accepte que le JSON donc il n'est pas nécessaire de l'avoir. no
 :::
 
 # Bad crypto
+
 ## source des problèmes
 
 - IV réutilisé
@@ -108,6 +107,7 @@ L'application n'accepte que le JSON donc il n'est pas nécessaire de l'avoir. no
 
 
 ## Schéma CBC
+
 ![AES-CBC explained](./assets/img/cbc-explained.png)
 
 ::: notes
@@ -117,8 +117,8 @@ L'IV réutilisé même sans pouvoir le modifier aurait été une faille, car il 
 
 # Échec
 
-- XSS - vuejs sanitize tout input
-- Injection SQL - Sécurisé par Prepare Statements
+- XSS - vuejs sanitize les inputs
+- Injection SQL - sécurisé par Prepare Statements
 
 ::: notes
 
